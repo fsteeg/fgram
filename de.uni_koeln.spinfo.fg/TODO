@@ -1,0 +1,6 @@
+- clean libraries, files packages
+- add javadoc to all classes
+- add licences notice to all files
+- spread prolog so some more files again (controller, ex-rules, lexicon)
+- make naming of ucs.model classes theory-conforming (predicate, term, etc)
+- add past present etc to ANTLR grammar, processing and prolog generator
