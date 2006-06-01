@@ -1,0 +1,12 @@
+// $ANTLR : form.g -> FormParserTokenTypes.txt$
+FormParser    // output token vocab name
+NEWLINE=4
+LPAREN=5
+RPAREN=6
+LETTER=7
+DEF=8
+NUMBER=9
+RESTRIKTOR=10
+LBRACK=11
+RBRACK=12
+BLANK=13

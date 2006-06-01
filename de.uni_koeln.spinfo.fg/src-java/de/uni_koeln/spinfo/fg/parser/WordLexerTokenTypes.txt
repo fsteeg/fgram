@@ -1,0 +1,5 @@
+// $ANTLR : wordlexer.g -> WordLexerTokenTypes.txt$
+WordLexer    // output token vocab name
+LETTER=4
+BLANK=5
+NEWLINE=6
