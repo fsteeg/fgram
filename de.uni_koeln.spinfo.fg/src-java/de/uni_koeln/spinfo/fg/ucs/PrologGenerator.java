@@ -68,7 +68,7 @@ public class PrologGenerator {
 
 		} else {
 			propsBuffer.append("prop(x" + i + ", type, pred)." + lineStep);
-			propsBuffer.append("prop(x" + i + ", tense, present)." + lineStep);
+			propsBuffer.append("prop(x" + i + ", tense, " + predicate.getValues().getTense() +")." + lineStep);
 			propsBuffer.append("prop(x" + i + ", perfect, false)." + lineStep);
 			propsBuffer.append("prop(x" + i + ", progressive, false)."
 					+ lineStep);

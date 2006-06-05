@@ -30,6 +30,8 @@ public class Values {
 
     public int count;
 
+    private String tense;
+
     /**
      * @param def
      *            like "d" for definite or "i" for indefinite
@@ -53,10 +55,15 @@ public class Values {
         	def = "indef";
         else if(def.equals("d"))
         	def = "def";
+        //TODO provisorically... we need distinction...
+        if(def.toLowerCase().equals("past"))
+            tense = "past";
+        else if(def.toLowerCase().equals("pres"))
+            tense = "present";
         this.def = def;
         if(num.equals("1"))
         	num = "sing";
-        else if(num.equals("2"))
+        else if(num.toLowerCase().equals("m"))
         	num = "plural";
         this.num = num;
         this.type = type;
@@ -103,6 +110,10 @@ public class Values {
 
     public int getIndex() {
         return Integer.parseInt(index);
+    }
+
+    public String getTense() {
+        return tense;
     }
 
 }

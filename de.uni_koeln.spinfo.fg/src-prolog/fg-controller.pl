@@ -1,4 +1,4 @@
-%:- initialization ensure_loaded('generated_ucs.pl').
+:- initialization ensure_loaded('generated_ucs.pl').
 %:- initialization ensure_loaded('working_ucs.pl').
 %:- initialization ensure_loaded('underly.pl').
 expression(Res) :-

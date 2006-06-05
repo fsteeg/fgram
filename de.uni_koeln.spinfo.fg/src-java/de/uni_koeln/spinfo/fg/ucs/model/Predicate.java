@@ -35,10 +35,26 @@ public class Predicate {
         this.values = vals;
         this.role = role.toLowerCase();
         if (!role.equals("")) {
-            this.relation = getRelation(role).toLowerCase();
-            this.role = role.substring(0,
-                    role.length() - this.relation.length()).toLowerCase();
-            if(this.relation.equals(""))
+            String r = getRelation(role).toLowerCase();
+            // use a mapping for this, prop file, do it somewhere else?
+
+            String trimmedRole = role.substring(0,
+                    role.length() - r.length()).toLowerCase();
+            
+            if (r.equals("subj"))
+                r = "subject";
+            else if (r.equals("obj"))
+                r = "object";
+            this.relation = r;
+            
+            if (r.equals("ag"))
+                this.role = "agent";
+            else if (r.equals("go"))
+                this.role = "goal";
+            else
+                this.role = trimmedRole;
+
+            if (this.relation.equals(""))
                 this.relation = "unknown";
         }
 

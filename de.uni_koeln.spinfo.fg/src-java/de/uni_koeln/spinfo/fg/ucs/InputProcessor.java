@@ -50,10 +50,11 @@ public class InputProcessor {
      * @throws TokenStreamException
      * @throws RecognitionException
      */
-    public String process() throws RecognitionException, TokenStreamException {
+    public String process(boolean verbose) throws RecognitionException,
+            TokenStreamException {
         Log.logger.info("Parsing Predicate: " + inputUCS);
 
-        //String s = Util.getText(new File("ucs.txt"));
+        // String s = Util.getText(new File("ucs.txt"));
         String s = inputUCS;
         s = s.replaceAll("[^a-zA-Z0-9\\[\\]\\(\\):-]", "");
 
@@ -103,6 +104,7 @@ public class InputProcessor {
                 Object[] bindings = Main.engine.deterministicGoal(
                         "expression(PrologResult), name(Result,PrologResult)",
                         "[string(Result)]");
+                System.out.println("Bindings is: " + bindings);
                 Log.logger.info("Result of calling Prolog: " + bindings[0]);
                 if (bindings[0] instanceof String)
                     prologResult = (String) bindings[0];
@@ -120,14 +122,20 @@ public class InputProcessor {
 
             } catch (Throwable t) {
                 t.printStackTrace();
-                return "An error occured during calling Prolog (see console), Predicate.toString is:\n\n"
-                        + p.toString()
-                        + ", \n\ngenerated Prolog Code is:\n\n"
-                        + result + "";
+                if (verbose)
+                    return "An error occured during calling Prolog (see console), Predicate.toString is:\n\n"
+                            + p.toString()
+                            + ", \n\ngenerated Prolog Code is:\n\n"
+                            + result
+                            + "";
+                else
+                    return "Something went wrong (select verbose for details).";
             }
             // TODO: set the output text to the real result from the prolog call
-            return result + "\nReturned from Prolog call: " + prologResult;
+            if (verbose) {
+                return result + "\nReturned from Prolog call: " + prologResult;
+            } else
+                return prologResult.replaceAll("[\\[\\],]", " ").trim();
         }
     }
-
 }

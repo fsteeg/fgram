@@ -37,7 +37,7 @@ predicate returns [Predicate ret = new Predicate()]
 	RPAREN 
 	(
 	//role given
-	role:LETTER { ret = new Predicate(v,role.getText()); foundRole = true; }
+	role:ROLE { ret = new Predicate(v,role.getText()); foundRole = true; }
 	)?
 	//no role
 	{ if(!foundRole) ret = new Predicate(v,""); }
@@ -48,27 +48,33 @@ values returns [Values ret = new Values()]
 	{Predicate pred = null;Values v = null;}
 	: 
 	//d1x1:
-	d:DEF n:NUMBER t:LETTER c:NUMBER RESTRIKTOR 
-	{ ret = new Values(d.getText(), n.getText(), t.getText(), c.getText(), null,null); }
+	d:DEF n:NUMBER t:LAYER /*c:INDEX*/ RESTRIKTOR 
+	{ ret = new Values(d.getText(), n.getText(), t.getText(),/*, c.getText(),*/null, null,null); }
 	//man[N]
 	(
-	w0:LETTER LBRACK p0:LETTER RBRACK (RESTRIKTOR)?
-	{ ret = new Values(d.getText(), n.getText(), t.getText(), c.getText(), w0.getText(), p0.getText()); }
+	w0:WORD /*LBRACK*/ p0:WORD_CLASS /*RBRACK*/ (RESTRIKTOR)?
+	{ ret = new Values(d.getText(), n.getText(), t.getText()/*, c.getText()*/,null, w0.getText(), p0.getText()); }
 	)? 
 	// a complex values: d1x1:(d2x2:man[N])...
 	( pred = predicate { ret.addChild(pred); } ) * 
 ;
 	
 class UcsLexer extends Lexer;
-
-	DEF : 'd' | 'i';
-	//ROLE : "Ag" | "Pat" | "RecSubj";
-	LETTER : ('a'..'z' | 'A'..'Z')+;
-	NUMBER : '0'..'9';
+	
+	WORD_CLASS : '['('T' | 'N' | 'V' | 'A')']';
+	ROLE : SEMANTIC_FUNCTION (SYNTACTIC_FUNCTION)?;
+	//FIXME split this up: Def vs Tense...
+	DEF : 'd' | 'i' | "P"("ast" | "res");
+	LAYER : 'f' | 'x' | 'e';
+	SEMANTIC_FUNCTION : "Ag" | "Go"; // etc.
+	SYNTACTIC_FUNCTION : "Obj" | "Subj";
+	NUMBER : '1' | '2' | 'M';
+	//INDEX : 'j' | 'k';
 	BLANK : ' ';
 	LPAREN : '('; RPAREN : ')';
 	RESTRIKTOR : ':';
-	LBRACK : '['; RBRACK : ']';
+//	LBRACK : '['; RBRACK : ']';
+	WORD : ('a'..'z')+;
 	NEWLINE
     :   '\r' '\n'   // DOS
     |   '\n'        // UNIX
