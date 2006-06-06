@@ -1,4 +1,4 @@
-(Past E:love[V]: 
-	(D1X:man[N])AgSubj 
-	(DMX:woman[N])GoObj
+(E:love[V]: 
+	(X:man[N])
+	(DMX:woman[N])Go Obj
 )

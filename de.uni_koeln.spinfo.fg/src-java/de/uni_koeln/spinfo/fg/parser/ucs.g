@@ -1,6 +1,9 @@
-// goal: (fehlt nur noch (x1))
-// 
-// (pres e1:(d1x1:man[N]:(past e2:give[V](d1x2:mary[N])(d1x3:book[N])Go(x1)RecSubj))(d1x4:john[N])0)
+// Part of "Functional Grammar Language Generator" (http://fgram.sourceforge.net/) (C) 2006 Fabian Steeg
+// This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+// This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+// You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+// see the folder "ucs" for sample input
 
 header {
 	package de.uni_koeln.spinfo.fg.parser;
@@ -15,12 +18,12 @@ options {
 
 input returns [Predicate ret = new Predicate()]: ret = predicate (NEWLINE)? ;
 
-//(d1x1:(d2x2:man[N])Ag)
+//(D1X:(DMX:man[N])AgSubj)
 predicate returns [Predicate ret = new Predicate()]
 	{Predicate p = null; Term v = null; Term recVal = null; boolean foundRole = false;}
 	:
 	LPAREN^ 
-	( 
+	(
 	recVal = term 
 	{	
 		// first
@@ -29,39 +32,36 @@ predicate returns [Predicate ret = new Predicate()]
 		}
 		// more, add them
 		else{
-			Predicate pred = new Predicate(recVal,"");
-			v.addChild(pred);
+			Predicate pred = new Predicate(recVal,"", "");
+			v.getChildren().add(pred);
 		}
 	}
 	) +
 	RPAREN 
 	(
-	//role given
-	role:ROLE { ret = new Predicate(v,role.getText()); foundRole = true; }
+	// role given
+	role:SEMANTIC_FUNCTION (relation:SYNTACTIC_FUNCTION)? 
+	{ ret = new Predicate(v,role.getText(), relation!=null?relation.getText():null); foundRole = true; }
 	)?
-	//no role
-	{ if(!foundRole) ret = new Predicate(v,""); }
+	// no role
+	{ if(!foundRole) ret = new Predicate(v,"", ""); }
 ;
 
-//d1x1:(d2x2:man[N])Ag or d1x1:man[N]
+// D1X:(DMX:man[N])Ag or D1X:man[N]
 term returns [Term ret = new Term()]
 	{Predicate pred = null;Term v = null;}
 	: 
-	//d1x1:
-	( d:DEF | tense:TENSE ) (n:NUMBER)? /*c:INDEX*/ t:LAYER RESTRIKTOR
-	
-	//man[N]
-	(
-	w0:WORD /*LBRACK*/ p0:WORD_CLASS /*RBRACK*/ (RESTRIKTOR)?
-	//{ ret = new Term(d!=null?d.getText():null,tense!=null?tense.getText():null, n.getText(), t.getText()/*, c.getText()*/,null, w0.getText(), p0.getText()); }
+	// D1X:
+	( d:DEF | tense:TENSE )? (n:NUMBER)? /*c:INDEX*/ t:LAYER RESTRIKTOR
+	( // man[N]
+	w0:WORD p0:WORD_CLASS (RESTRIKTOR)?
 	)? 
-	{ ret = new Term(d!=null?d.getText():null,tense!=null?tense.getText():null, n!=null?n.getText():null, t!=null?t.getText():null,/*, c.getText(),*/null, w0!=null?w0.getText():null,p0!=null?p0.getText():null); }
-	// a complex values: d1x1:(d2x2:man[N])...
-	( pred = predicate { ret.addChild(pred); } ) * 
+	{ ret = new Term(d!=null?d.getText():null,tense!=null?tense.getText():null, n!=null?n.getText():null, t!=null?t.getText():null,/*, c.getText()*/ w0!=null?w0.getText():null,p0!=null?p0.getText():null); }
+	// a complex term: D1X:(MDX:man[N])...
+	( pred = predicate { ret.getChildren().add(pred); } ) * 
 ;
 	
 class UcsLexer extends Lexer;
-	ROLE : SEMANTIC_FUNCTION (SYNTACTIC_FUNCTION)?;
 	SEMANTIC_FUNCTION : "Ag" | "Go" | "Rec";
 	SYNTACTIC_FUNCTION : "Obj" | "Subj";
 	WORD_CLASS : '['('T' | 'N' | 'V' | 'A')']';
@@ -69,11 +69,8 @@ class UcsLexer extends Lexer;
 	TENSE : "P"("ast" | "res");
 	LAYER : 'F' | 'X' | 'E';
 	NUMBER : '1' | '2' | 'M';
-	//INDEX : 'j' | 'k';
-//	BLANK : ' ';
 	LPAREN : '('; RPAREN : ')';
 	RESTRIKTOR : ':';
-//	LBRACK : '['; RBRACK : ']';
 	WORD : ('a'..'z')+;
-	NEWLINE : '\r' '\n' /* DOS */ | '\n' /* UNIX */ ;
+	NEWLINE : '\r' '\n' /* DOS */ | '\n' /* UNIX */;
     
