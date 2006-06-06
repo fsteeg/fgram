@@ -12,12 +12,22 @@ import antlr.RecognitionException;
 import antlr.TokenStreamException;
 import antlr.TokenStreamHiddenTokenFilter;
 import antlr.collections.AST;
+import de.uni_koeln.spinfo.fg.ucs.InputProcessor;
 import de.uni_koeln.spinfo.fg.ucs.PrologGenerator;
 import de.uni_koeln.spinfo.fg.ucs.model.Predicate;
+import de.uni_koeln.spinfo.fg.util.Config;
+import de.uni_koeln.spinfo.fg.util.Log;
 import de.uni_koeln.spinfo.fg.util.Util;
 
 public class UcsParserTest extends TestCase {
+    InputProcessor inputProcessor;
 
+    protected void setUp() throws Exception {
+        super.setUp();
+        Log.init(Config.getString("log_folder"));
+        inputProcessor = new InputProcessor(Config.getString("prolog_application"));
+        
+    }
     public void testParser() {
         String s = Util.getText("ucs/ucs.txt");
         System.out.println(s);
@@ -55,6 +65,12 @@ public class UcsParserTest extends TestCase {
             e.printStackTrace();
         }
 
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        inputProcessor.close();
+        super.tearDown();
     }
 
 }
