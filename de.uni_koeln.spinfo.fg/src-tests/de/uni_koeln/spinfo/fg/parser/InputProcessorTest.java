@@ -51,17 +51,20 @@ public class InputProcessorTest extends TestCase {
      * expressions
      */
     public void testProcessFromString() {
-        String process = inputProcessor.process(
-                "(E:love[V]:(X:man[N])(DMX:woman[N])Go Obj)", false);
+        process("(E:love[V]:(X:man[N])(DMX:woman[N])Go Obj)",
+                "The man loves the women");
+        process("(E:please[V]:(X:man[N])(DMX:woman[N])Go Obj)",
+                "The man pleases the women");
+        process("(Past E:please[V]:(X:man[N])(DMX:woman[N])Go Obj)",
+                "The man pleased the women");
+    }
+
+    private void process(String ucs, String res) {
+        String process;
+        process = inputProcessor.process(ucs, false);
         assertTrue("No Result!", process != null);
-        assertEquals("Wrong result!", "The man loves the women", process);
+        assertEquals("Wrong result!", res, process);
         System.out.println(process);
-        process = inputProcessor.process(
-                "(E:please[V]:(X:man[N])(DMX:woman[N])Go Obj)", false);
-        assertTrue("No Result!", process != null);
-        assertEquals("Wrong result!", "The man pleases the women", process);
-        System.out.println(process);
-        inputProcessor.close();
     }
 
     @Override

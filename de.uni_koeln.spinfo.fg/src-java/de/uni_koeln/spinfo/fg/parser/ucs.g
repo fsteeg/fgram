@@ -66,7 +66,7 @@ class UcsLexer extends Lexer;
 	SYNTACTIC_FUNCTION : "Obj" | "Subj";
 	WORD_CLASS : '['('T' | 'N' | 'V' | 'A')']';
 	DEF : 'D' | 'I';
-	TENSE : "P"("ast" | "res");
+	TENSE : "P"("ast" | "res" | "erf");
 	LAYER : 'F' | 'X' | 'E';
 	NUMBER : '1' | '2' | 'M';
 	LPAREN : '('; RPAREN : ')';

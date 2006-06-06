@@ -8,7 +8,7 @@ prop(clause, illocution, decl).
 prop(clause, type, mainclause).
 
 prop(x1, type, pred).
-prop(x1, tense, present).
+prop(x1, tense, past).
 prop(x1, perfect, false).
 prop(x1, progressive, false).
 prop(x1, mode, ind).
