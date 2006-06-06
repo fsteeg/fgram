@@ -10,7 +10,6 @@ import java.io.StringReader;
 import junit.framework.TestCase;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
-import antlr.TokenStreamHiddenTokenFilter;
 import antlr.collections.AST;
 import de.uni_koeln.spinfo.fg.ucs.InputProcessor;
 import de.uni_koeln.spinfo.fg.ucs.PrologGenerator;
@@ -19,54 +18,55 @@ import de.uni_koeln.spinfo.fg.util.Config;
 import de.uni_koeln.spinfo.fg.util.Log;
 import de.uni_koeln.spinfo.fg.util.Util;
 
+/**
+ * Tests the generated antlr parser
+ * 
+ * @author Fabian Steeg (fsteeg)
+ */
 public class UcsParserTest extends TestCase {
-    InputProcessor inputProcessor;
+    private InputProcessor inputProcessor;
 
     protected void setUp() throws Exception {
         super.setUp();
         Log.init(Config.getString("log_folder"));
-        inputProcessor = new InputProcessor(Config.getString("prolog_application"));
-        
+        inputProcessor = new InputProcessor(Config
+                .getString("prolog_application"));
     }
+
+    /**
+     * Loads a ucs from a text file and parses the ucs using the antlr-generated
+     * parser, generates and writes prolog.
+     */
     public void testParser() {
         String s = Util.getText("ucs/ucs.txt");
-        System.out.println(s);
         assertTrue("Error while reading UCS from file", s != null);
         s = s.replaceAll("[^a-zA-Z0-9\\[\\]\\(\\):-]", "");
+        System.out.println("UCS: " + s);
         UcsLexer lexer = new UcsLexer(new StringReader(s));
-
-        lexer.setTokenObjectClass("antlr.CommonHiddenStreamToken");
-
-        TokenStreamHiddenTokenFilter filter = new TokenStreamHiddenTokenFilter(
-                lexer);
-
-        // filter.discard(UcsParser.WORD);
-        filter.hide(UcsParser.WORD);
-
         assertTrue("Error while instantiating Lexer", lexer != null);
         UcsParser parser = new UcsParser(lexer);
-        // UcsParser parser = new UcsParser(filter);
         assertTrue("Error while instantiating parser", parser != null);
         Predicate p;
         try {
             p = parser.input();
-            System.out.println(p.toString());
             assertTrue("Error while parsing", p != null);
             AST t = parser.getAST();
             System.out.println("AST: " + t.toStringTree());
-            PrologGenerator gen = new PrologGenerator(p);
-            assertTrue("Error while instantiating PrologGenerator", gen != null);
-            String generateProlog = gen.generateProlog();
-            assertTrue("Error while generating Prolog", generateProlog != null);
-            System.out.println(generateProlog);
+            generateProlog(p);
         } catch (RecognitionException e) {
             e.printStackTrace();
         } catch (TokenStreamException e) {
             e.printStackTrace();
         }
-
     }
-    
+
+    private void generateProlog(Predicate p) {
+        PrologGenerator gen = new PrologGenerator(p);
+        assertTrue("Error while instantiating PrologGenerator", gen != null);
+        String generateProlog = gen.generateProlog();
+        assertTrue("Error while generating Prolog", generateProlog != null);
+    }
+
     @Override
     protected void tearDown() throws Exception {
         inputProcessor.close();

@@ -23,112 +23,60 @@ public class Predicate {
 
     private String relation;
 
+    /**
+     * Default constructor, used during parsing
+     */
     public Predicate() {
         this.term = new Term();
     }
 
-    // public Predicate(String def, String num, String type, String index,
-    // String form, String nav, Collection<Term> args) {
-    // super();
-    // this.term = new Term(def, "", num, type, index, form, nav);
-    // }
-
-    public Predicate(Term vals, String role, String relation) {
+    /**
+     * @param term
+     *            The 'root' term for this predicate
+     * @param role
+     *            The role of the entire predicate (agent, goal...)
+     * @param relation
+     *            The relation of the entire predicate (subject, object)
+     */
+    public Predicate(Term term, String role, String relation) {
         super();
-        this.term = vals;
-        // this.role = role.toLowerCase();
-        // this.relation = relation.toLowerCase();
-        // if (!role.equals("")) {
-        this.role = role.equals("") ? Config.getString("default_role")
-                : Config.getString(role.toLowerCase());
+        this.term = term;
+        this.role = role.equals("") ? Config.getString("default_role") : Config
+                .getString(role.toLowerCase());
         this.relation = relation.equals("") ? Config
-                .getString("default_relation") : Config
-                .getString(relation.toLowerCase());
-        // String r = role;// getRelation(role).toLowerCase();
-        // use a mapping for this, prop file, do it somewhere else?
-
-        // String trimmedRole = role.substring(0, role.length() - r.length())
-        // .toLowerCase();
-        //
-        // if (r.equals("subj"))
-        // r = "subject";
-        // else if (r.equals("obj"))
-        // r = "object";
-        // this.relation = r;
-        //
-        // if (r.equals("ag"))
-        // this.role = "agent";
-        // else if (r.equals("go"))
-        // this.role = "goal";
-        // else
-        // this.role = trimmedRole;
-        //
-        // if (this.relation.equals(""))
-        // this.relation = "unknown";
-        // }
-
+                .getString("default_relation") : Config.getString(relation
+                .toLowerCase());
     }
 
-    // private String getRelation(String role2) {
-    // char[] cs = role2.toCharArray();
-    // for (int i = 0; i < cs.length; i++) {
-    // if (i != 0 && Character.isUpperCase(cs[i])) {
-    // return role2.substring(i);
-    // }
-    // }
-    // // TODO Auto-generated method stub
-    // return "";
-    // }
-
+    /**
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         StringBuilder argsString = new StringBuilder();
 
         for (Predicate pred : term.getChildren()) {
-            argsString.append(pred.toString()).append(" ");
+            argsString.append(pred.toString());
         }
-        return "Predicate Values: " + term.toString() + ", Args: "
-                + argsString.toString().trim() + "";
+        return "[Predicate] Role: " + role + " Relation: " + relation
+                + " Term: " + term.toString() + " Children: "
+                + argsString.toString().trim() + "" + ("\n\n ");
     }
 
-    // public Collection<Term> getArgs() {
-    // return this.args;
-    // }
-
-    // public void addChild(Predicate p) {
-    // // TODO implement
-    // System.out.println("Will add Child: " + p.toString());
-    // children.add(p);
-    // }
-
-    
     /**
-     * @param i The depth in the internal tree representation
-     * @return 
+     * @return Returns true if this is a Term, meaning it has no children
      */
-//    public String getProps(int i) {
-//        StringBuilder res = new StringBuilder();
-//        // the predicate itself has index 1, so we start with 2:
-//        i++;
-//        for (int j = 0; j < term.getChildren().size(); j++) {
-//            res.append("x" + i + " ");
-//            i++;
-//        }
-//        return res.toString().trim().replaceAll(" ", ", ");
-//    }
+    public boolean isTerm() {
+        return term.getChildren().size() == 0;
+    }
 
-    // public void setRole(String role) {
-    // this.role = role;
-    // }
-    
     /**
      * @return The term
      */
     public Term getTerm() {
         return term;
     }
-    
-    //
+
     /**
      * @return The semantic role or function, like "agent", "goal",...
      */
@@ -141,17 +89,5 @@ public class Predicate {
      */
     public String getRelation() {
         return this.relation;
-    }
-
-    //
-    // public Collection<Predicate> getArgs() {
-    // return term.getChildren();
-    // }
-    //
-    /**
-     * @return Returns true if this is a Term, meaning it has no children
-     */
-    public boolean isTerm() {
-        return term.getChildren().size() == 0;
     }
 }

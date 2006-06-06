@@ -13,57 +13,57 @@ import de.uni_koeln.spinfo.fg.util.Config;
 import de.uni_koeln.spinfo.fg.util.Log;
 import de.uni_koeln.spinfo.fg.util.Util;
 
+/**
+ * Tests the complete generation, from ucs to linguistic expression
+ * 
+ * @author Fabian Steeg (fsteeg)
+ */
 public class InputProcessorTest extends TestCase {
-    InputProcessor inputProcessor;
+    private InputProcessor inputProcessor;
 
     protected void setUp() throws Exception {
         super.setUp();
         Log.init(Config.getString("log_folder"));
-        inputProcessor = new InputProcessor(Config.getString("prolog_application"));
-        
+        inputProcessor = new InputProcessor(Config
+                .getString("prolog_application"));
+
     }
 
+    /**
+     * Loads ucs from string, generates expression
+     */
     public void testProcessFromFile() {
-        try {
-            String text = Util.getText("ucs/ucs.txt");
-            assertTrue("Problem on opening text", text != null);
-            System.out.println("Text: " + text);
-            assertTrue("Problem on creating InputProcessor",
-                    inputProcessor != null);
-            String process = inputProcessor.process(text, true);
-            assertTrue("No Result!", process != null);
-            process = inputProcessor.process(
-                    "(E:love[V]:(X:man[N])(DMX:woman[N])Go Obj)", true);
-            assertTrue("No Result!", process != null);
-            System.out.println(process);
-            process = inputProcessor.process(
-                    "(E:please[V]:(X:man[N])(DMX:woman[N])Go Obj)", true);
-            assertTrue("No Result!", process != null);
-            System.out.println(process);
-        } catch (RecognitionException e) {
-            e.printStackTrace();
-        } catch (TokenStreamException e) {
-            e.printStackTrace();
-        }
+        String text = Util.getText("ucs/ucs.txt");
+        assertTrue("Problem on opening text", text != null);
+        assertTrue("Problem on creating InputProcessor", inputProcessor != null);
+        String process = inputProcessor.process(text, false);
+        assertTrue("No Result!", process != null);
+        process = inputProcessor.process(
+                "(E:love[V]:(X:man[N])(DMX:woman[N])Go Obj)", false);
+        assertTrue("No Result!", process != null);
+        System.out.println(process);
+        process = inputProcessor.process(
+                "(E:please[V]:(X:man[N])(DMX:woman[N])Go Obj)", false);
+        assertTrue("No Result!", process != null);
+        System.out.println(process);
     }
 
+    /**
+     * Tests two ucs given in code and checks correctness of the generated
+     * expressions
+     */
     public void testProcessFromString() {
-        try {
-
-            String process = inputProcessor.process(
-                    "(E:love[V]:(X:man[N])(DMX:woman[N])Go Obj)", true);
-            assertTrue("No Result!", process != null);
-            System.out.println(process);
-            process = inputProcessor.process(
-                    "(E:please[V]:(X:man[N])(DMX:woman[N])Go Obj)", true);
-            assertTrue("No Result!", process != null);
-            System.out.println(process);
-            inputProcessor.close();
-        } catch (RecognitionException e) {
-            e.printStackTrace();
-        } catch (TokenStreamException e) {
-            e.printStackTrace();
-        }
+        String process = inputProcessor.process(
+                "(E:love[V]:(X:man[N])(DMX:woman[N])Go Obj)", false);
+        assertTrue("No Result!", process != null);
+        assertEquals("Wrong result!", "The man loves the women", process);
+        System.out.println(process);
+        process = inputProcessor.process(
+                "(E:please[V]:(X:man[N])(DMX:woman[N])Go Obj)", false);
+        assertTrue("No Result!", process != null);
+        assertEquals("Wrong result!", "The man pleases the women", process);
+        System.out.println(process);
+        inputProcessor.close();
     }
 
     @Override

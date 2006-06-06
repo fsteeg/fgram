@@ -6,7 +6,7 @@
 package de.uni_koeln.spinfo.fg.ucs.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import de.uni_koeln.spinfo.fg.util.Config;
 
@@ -17,23 +17,9 @@ import de.uni_koeln.spinfo.fg.util.Config;
  */
 public class Term {
 
-    protected String def, num, layer, index, wordForm, wordClass, tense;
+    private String def, num, layer, index, wordForm, wordClass, tense;
 
-    // private String num;
-
-    // private String type;
-
-    // private String index;
-
-    // private String form;
-
-    // private String nav;
-
-    private Collection<Predicate> children;
-
-    // public int count;
-
-    // private String tense;
+    private List<Predicate> children;
 
     /**
      * Default constructor, instantiates the children
@@ -56,87 +42,22 @@ public class Term {
      * @param wordForm
      *            The form, like "attack" or "city"
      * @param wordClass
-     *            The word class, "N", "A", "v", "T"
+     *            The word class, "N", "A", "V", "T"
      */
-    public Term(String det, String tense, String number, String layer, /*
-                                                                         * String
-                                                                         * index,
-                                                                         */
-    String wordForm, String wordClass) {
+    public Term(String det, String tense, String number, String layer,
+            String wordForm, String wordClass) {
         super();
-        // TODO this in antlr, using an prop file to map "i" to "indef" etc
-        // if(def.equals("i")) //$NON-NLS-1$
-        this.def = det != null ? Config.getString(det.toLowerCase())
-                : Config.getString("default_det"); //$NON-NLS-1$
-        this.tense = tense != null ? Config.getString(tense
-                .toLowerCase()) : Config.getString("default_tense");
-        this.num = number != null ? Config.getString(number
-                .toLowerCase()) : Config.getString("default_num");
-        // else if(def.equals("d")) //$NON-NLS-1$
-        // def = Abbreviations.getString("d"); //$NON-NLS-1$
-        // TODO provisorically... we need distinction...
-        // if(def.toLowerCase().equals(Abbreviations.getString("past")))
-        // //$NON-NLS-1$
-        // tense = "past"; //$NON-NLS-1$
-        // else if(def.toLowerCase().equals("pres")) //$NON-NLS-1$
-        // tense = Abbreviations.getString("pres"); //$NON-NLS-1$
-        // this.def = def;
-        // if(num.equals("1")) //$NON-NLS-1$
-        // num = Abbreviations.getString("1"); //$NON-NLS-1$
-        // else if(num.toLowerCase().equals("m")) //$NON-NLS-1$
-        // num = Abbreviations.getString("m"); //$NON-NLS-1$
-        // this.num = num;
-
-        // this.index = index;
+        // get the mapped values or the default values
+        this.def = det != null ? Config.getString(det.toLowerCase()) : Config
+                .getString("default_det");
+        this.tense = tense != null ? Config.getString(tense.toLowerCase())
+                : Config.getString("default_tense");
+        this.num = number != null ? Config.getString(number.toLowerCase())
+                : Config.getString("default_num");
         this.layer = layer;
         this.wordClass = wordClass;
         this.wordForm = wordForm;
         this.children = new ArrayList<Predicate>();
-    }
-
-    /**
-     * @param p
-     *            The Predicate to add as a child, doen during parsing.
-     */
-    // public void addChild(Predicate p) {
-    // // System.out.println("Will add Child: " + p.toString());
-    // children.add(p);
-    // }
-    // @Override
-    // public String toString() {
-    // return "Form: " + wordForm + ", Def: " + def + ", Num: " + num + ", Type:
-    // " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-    // + layer + ", Index: " + index + ", N/A/V: " + wordClass; //$NON-NLS-1$
-    // //$NON-NLS-2$
-    // }
-    // public String getForm() {
-    // return wordForm;
-    // }
-    //
-    // public String getNum() {
-    // return num;
-    // }
-    //
-    // public String getDef() {
-    // return def;
-    // }
-    //
-    // public String getNav() {
-    // if (wordClass != null)
-    // return wordClass.toLowerCase();
-    // else
-    // return null;
-    // }
-    //
-    // public int getIndex() {
-    // return Integer.parseInt(index);
-    // }
-    //
-    // public String getTense() {
-    // return tense;
-    // }
-    public Collection<Predicate> getChildren() {
-        return children;
     }
 
     /**
@@ -158,22 +79,44 @@ public class Term {
         return builder.toString();
     }
 
+    /**
+     * @return The children predicates
+     */
+    public List<Predicate> getChildren() {
+        return children;
+    }
+
+    /**
+     * @return The Definiteness: indef or def
+     */
     public String getDef() {
         return def;
     }
 
+    /**
+     * @return The Number: singular, plural, ...
+     */
     public String getNum() {
         return num;
     }
 
+    /**
+     * @return The Tense: past, present TODO FG: anterior, no past?
+     */
     public String getTense() {
         return tense;
     }
 
+    /**
+     * @return The word form: "attack" or "man", ...
+     */
     public String getWordForm() {
         return wordForm;
     }
 
+    /**
+     * @return The word class: V, N, A, T
+     */
     public String getWordClass() {
         return wordClass;
     }

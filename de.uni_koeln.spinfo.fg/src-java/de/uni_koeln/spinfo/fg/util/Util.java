@@ -6,11 +6,17 @@
 package de.uni_koeln.spinfo.fg.util;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Helper methods for file-IO
+ * 
+ * @author Fabian Steeg (fsteeg)
+ */
 public class Util {
     /**
      * Reads a file to a string, eliminating newline-characters
@@ -45,11 +51,9 @@ public class Util {
     public static void saveString(String location, String content) {
         File f = new File(location);
         try {
-            FileWriter writer = new FileWriter(f);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
             writer.write(content.toCharArray());
             writer.close();
-            System.out.println("Wrote output " + content + " to: "
-                    + f.getAbsolutePath() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

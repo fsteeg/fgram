@@ -6,7 +6,6 @@
 package de.uni_koeln.spinfo.fg.ucs;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.StringReader;
 
 import antlr.RecognitionException;
@@ -38,7 +37,6 @@ public class InputProcessor {
      */
     public InputProcessor(String swi) {
         super();
-        // System.out.println("SWI: " + swi);
         this.engine = new SWISubprocessEngine(swi);
     }
 
@@ -59,107 +57,111 @@ public class InputProcessor {
      *            If true, genrated prolog will be retuned with the result
      * @return Will return the actual linguistic expression mapped to the
      *         input-ucs
-     * @throws TokenStreamException
-     * @throws RecognitionException
      */
-    public String process(String inputUCS, boolean verbose)
-            throws RecognitionException, TokenStreamException {
-        Log.logger.info("Parsing Predicate: " + inputUCS);
-        // String s = Util.getText(new File("ucs.txt"));
-//        String s = ;
-        
-        //remove all weird special chars from the input ucs
-        String s = inputUCS.replaceAll("[^a-zA-Z0-9\\[\\]\\(\\):-]", "");
+    public String process(String inputUCS, boolean verbose) {
+        Log.logger.debug("UCS: " + inputUCS);
+        String s = preprocess(inputUCS);
+        Log.logger.debug("Parsing UCS...");
+        Predicate p = parse(s);
+        Log.logger.debug("Generating Prolog Code...");
+        String generatedProlog = new PrologGenerator(p).generateProlog();
+        Log.logger.debug("Calling Prolog...");
+        return callProlog(generatedProlog, p, verbose);
+
+    }
+
+    /**
+     * Closes and cleans up (closing the Prolog engine...)
+     */
+    public void close() {
+        engine.shutdown();
+    }
+
+    /***************************************************************************
+     * *************************************************************************
+     **************************************************************************/
+
+    private Predicate parse(String s) {
         // use antlr-generated lexer and parser to parse the input ucs
         UcsLexer lexer = new UcsLexer(new StringReader(s));
         UcsParser parser = new UcsParser(lexer);
-        Predicate p = parser.input();
-        
-//        System.out.println(p.toString());
+        Predicate p = null;
+        String errorMessage = "Parsing of Predicate '" + s + "' failed! ";
+        try {
+            p = parser.input();
+        } catch (RecognitionException e) {
+            Log.logger.debug(errorMessage);
+            e.printStackTrace();
+        } catch (TokenStreamException e) {
+            Log.logger.debug(errorMessage);
+            e.printStackTrace();
+        }
+        return p;
+    }
 
-        String result = "";
-        // Parser parser = new Parser(inputUCS);
-        // String result = parser.process();
+    private String preprocess(String inputUCS) {
+        // remove all weird special chars from the input ucs
+        String s = inputUCS.replaceAll("[^a-zA-Z0-9\\[\\]\\(\\):-]", "");
+        return s;
+    }
+
+    private String callProlog(String generatedProlog, Predicate p,
+            boolean verbose) {
+        // call prolog using interprolog
         String prologResult = null;
-        if (p == null) {
-            Log.logger.info("Parsing of Predicate '" + inputUCS + "' failed! ");
-            // + result);
-            return result;
-        } else {
-            try {
-                Log.logger.info("Generating Prolog Code...");
-
-               result = new PrologGenerator(p).generateProlog();
-                
-//                System.out.println(gen.generateProlog());
-
-                // PrologGenerator gen = new PrologGenerator(parser.getUCS());
-//                result = gen.generateProlog();
-//                String prologSourcePath = "src-prolog";
-//                String placeToSave = prologSourcePath + File.separator
-//                        + "generated_ucs.pl";
-//                Log.logger.info("Saving generated Prolog Code to: "
-//                        + placeToSave);
-//                gen.saveProlog(placeToSave);
-                // consult the calling prolog code:
-                prologResult = callProlog(prologResult);
-
-            } catch (Throwable t) {
-                t.printStackTrace();
-                if (verbose)
-                    return "An error occured during calling Prolog (see console), Predicate.toString is:\n\n"
-                            + p.toString()
-                            + ", \n\ngenerated Prolog Code is:\n\n"
-                            + result
-                            + "";
-                else
-                    return "Something went wrong (select verbose for details).";
-            }
-
+        File fileToConsult = loadFile();
+        try {
+            engine.consultAbsolute(fileToConsult);
+            Object[] bindings = engine.deterministicGoal(
+                    "expression(PrologResult), name(Result,PrologResult)",
+                    "[string(Result)]");
+            Log.logger.debug("Result of calling Prolog: " + bindings[0]);
+            if (bindings[0] instanceof String)
+                prologResult = (String) bindings[0];
+            else
+                throw new IllegalArgumentException(
+                        "Result from Prolog is no String!");
+            // get all the values asserted as expression_results
+            String goal = "nonDeterministicGoal(X,expression_result(X),ListModel)";
+            TermModel solutionVars = (TermModel) (engine.deterministicGoal(
+                    goal, "[ListModel]")[0]);
+            if (solutionVars.isList()) {
+                Log.logger.debug("Is list!");
+                prologResult = "" + solutionVars;
+            } else
+                throw new IllegalArgumentException(
+                        "Result from Prolog is no List!");
+            Log.logger.debug("Solution bindings list:" + solutionVars);
             if (verbose) {
-                return result + "\nReturned from Prolog call: " + prologResult;
+                return generatedProlog + "\nReturned from Prolog call: "
+                        + prologResult;
             } else
                 return prologResult.replaceAll("[\\[\\],]", " ").trim();
+        } catch (Exception t) {
+            t.printStackTrace();
+            if (verbose)
+                return "An error occured during calling Prolog (see console), Predicate.toString is:\n\n"
+                        + p.toString()
+                        + ", \n\ngenerated Prolog Code is:\n\n"
+                        + generatedProlog + "";
+            else
+                return "Something went wrong (select verbose for details).";
         }
+
     }
 
-    private String callProlog(String prologResult) throws FileNotFoundException {
-        File fileToConsult = new File(Config.getString("prolog_sources") + File.separator
-                + "fg-controller.pl");
-        if (fileToConsult.exists())
-            Log.logger.info("Will consult: "
+    private File loadFile() {
+        File fileToConsult = new File(Config.getString("prolog_sources")
+                + File.separator + Config.getString("prolog_controller"));
+        if (fileToConsult.exists()) {
+            Log.logger
+                    .debug("Will consult: " + fileToConsult.getAbsolutePath());
+            return fileToConsult;
+        } else {
+            Log.logger.debug("File does not exist: "
                     + fileToConsult.getAbsolutePath());
-        else
-            throw new FileNotFoundException(
-                    "File to consult does not exist: "
-                            + fileToConsult.getAbsolutePath());
-        engine.consultAbsolute(fileToConsult);
-        // test: call with a return value of true or false only
-        boolean sucess = engine.deterministicGoal("expression(M)");
-        Log.logger.info("Result of calling Prolog: " + sucess);
-        // prolog call without params, with return value
-        Object[] bindings = engine.deterministicGoal(
-                "expression(PrologResult), name(Result,PrologResult)",
-                "[string(Result)]");
-        System.out.println("Bindings is: " + bindings);
-        Log.logger.info("Result of calling Prolog: " + bindings[0]);
-        if (bindings[0] instanceof String)
-            prologResult = (String) bindings[0];
-        // get all the values asserted as expression_results:
-        String goal = "nonDeterministicGoal(X,expression_result(X),ListModel)";
-        // Notice that 'ListModel' is referred in both deterministicGoal
-        // arguments:
-        TermModel solutionVars = (TermModel) (engine.deterministicGoal(
-                goal, "[ListModel]")[0]);
-        if (solutionVars.isList()) {
-            Log.logger.info("Is list!");
-            prologResult = "" + solutionVars;
+            return null;
         }
-        Log.logger.info("Solution bindings list:" + solutionVars);
-        return prologResult;
-    }
 
-    public void close() {
-        engine.shutdown();
     }
 }

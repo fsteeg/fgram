@@ -22,12 +22,14 @@ import de.uni_koeln.spinfo.fg.util.Log;
  */
 public class PrologGenerator {
 
-//    private String result = null;
-
     private Predicate ucs = null;
 
     private String prologResultString = null;
 
+    /**
+     * @param ucs
+     *            The predicate to generate prolog for
+     */
     public PrologGenerator(Predicate ucs) {
         this.ucs = ucs;
     }
@@ -40,27 +42,41 @@ public class PrologGenerator {
     public String generateProlog() {
         StringBuilder nodesBuffer = new StringBuilder();
         StringBuilder propsBuffer = new StringBuilder();
-
         String lineStep = System.getProperty("line.separator");
-
         generate(1, 0, lineStep, nodesBuffer, propsBuffer, ucs);
         String clauseStuff = "";
-
         clauseStuff += "prop(clause, illocution, decl)." + lineStep;
         clauseStuff += "prop(clause, type, mainclause)." + lineStep;
-
         prologResultString = "% this file is generated - do not edit!\n\n"
                 + nodesBuffer.append(
                         lineStep + clauseStuff + lineStep + propsBuffer)
                         .toString();
-
         String prologSourcePath = Config.getString("prolog_sources");
         String placeToSave = prologSourcePath + File.separator
-                + "generated_ucs.pl";
-        Log.logger.info("Saving generated Prolog Code to: " + placeToSave);
+                + Config.getString("prolog_ucs");
+        Log.logger.debug("Saving generated Prolog Code to: " + placeToSave);
         saveProlog(placeToSave);
-
         return prologResultString;
+    }
+
+    /***************************************************************************
+     * *************************************************************************
+     **************************************************************************/
+
+    private void saveProlog(String path) {
+        if (prologResultString == null)
+            throw new NullPointerException("No Prolog has been generated.");
+        // write generated prolog:
+        File pFile = new File(path);
+        try {
+            pFile.createNewFile();
+            FileWriter f = new FileWriter(pFile);
+            f.write(prologResultString);
+            f.close();
+        } catch (IOException e1) {
+            System.out.println("File IO failed!");
+            e1.printStackTrace();
+        }
     }
 
     private void generate(int i, int level, String lineStep,
@@ -69,7 +85,6 @@ public class PrologGenerator {
         nodesBuffer.append("node(x" + i + ", " + level + ")." + lineStep);
         if (predicate.isTerm()) {
             propsBuffer.append("prop(x" + i + ", type, term)." + lineStep);
-
             propsBuffer.append("prop(x" + i + ", role, " + predicate.getRole()
                     + ")." + lineStep);
             propsBuffer.append("prop(x" + i + ", relation, "
@@ -79,7 +94,6 @@ public class PrologGenerator {
             propsBuffer.append("prop(x" + i + ", num, "
                     + predicate.getTerm().getNum() + ")." + lineStep);
             propsBuffer.append("prop(x" + i + ", modifs, [])." + lineStep);
-
         } else {
             propsBuffer.append("prop(x" + i + ", type, pred)." + lineStep);
             propsBuffer.append("prop(x" + i + ", tense, "
@@ -89,7 +103,6 @@ public class PrologGenerator {
                     + lineStep);
             propsBuffer.append("prop(x" + i + ", mode, ind)." + lineStep);
             propsBuffer.append("prop(x" + i + ", voice, active)." + lineStep);
-
             propsBuffer.append("prop(x" + i + ", subnodes, ["
                     + subnodes(i, predicate) + "])." + lineStep);
         }
@@ -121,24 +134,4 @@ public class PrologGenerator {
         }
         return res.toString().trim().replaceAll(" ", ", ");
     }
-
-    /**
-     * Writes the generated Prolog to disk. Call generateProlog() first.
-     */
-    public void saveProlog(String path) {
-        if (prologResultString == null)
-            throw new NullPointerException("No Prolog has been generated.");
-        // write generated prolog:
-        File pFile = new File(path);
-        try {
-            pFile.createNewFile();
-            FileWriter f = new FileWriter(pFile);
-            f.write(prologResultString);
-            f.close();
-        } catch (IOException e1) {
-            System.out.println("File IO failed!");
-            e1.printStackTrace();
-        }
-    }
-
 }

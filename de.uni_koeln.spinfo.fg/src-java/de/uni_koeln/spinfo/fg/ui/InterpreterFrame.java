@@ -5,8 +5,8 @@
 
 package de.uni_koeln.spinfo.fg.ui;
 
-//TODO insert sample Predicate when hitting tab
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -21,16 +21,14 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.LineBorder;
 
-import antlr.RecognitionException;
-import antlr.TokenStreamException;
 import de.uni_koeln.spinfo.fg.ucs.InputProcessor;
 import de.uni_koeln.spinfo.fg.util.Config;
 import de.uni_koeln.spinfo.fg.util.Log;
 
 /**
- * A basic UI for evaluating Predicate-Expressions
+ * A basic swing UI for evaluating a ucs
  * 
  * @author Fabian Steeg
  * 
@@ -38,77 +36,69 @@ import de.uni_koeln.spinfo.fg.util.Log;
 public class InterpreterFrame extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
-    JTextField input;
+    private JTextField input;
 
-    JTextArea output;
+    private JTextArea output;
 
-    JCheckBox debug;
+    private JCheckBox debug;
 
     final private InputProcessor processor;
 
+    /**
+     * @param swi
+     *            The location of the "swipl" application
+     * @throws HeadlessException
+     */
     public InterpreterFrame(String swi) throws HeadlessException {
         super();
         this.setSize(new Dimension(600, 200));
-        this.setTitle("FG");
+        this.setTitle("FGRAM");
         Container container = this.getContentPane();
-
         input = new JTextField();
         input.setEditable(true);
         input.setSize(this.getWidth(), this.getHeight() / 2);
-        input.setBorder(new TitledBorder("input"));
-        input
-                .setText("(Past E : love [V] : ( D1X : man[N] ) AgSubj ( DMX : woman[N] ) GoObj )");
-
+        input.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        input.setText(Config.getString("sample_ucs"));
         output = new JTextArea();
         output.setEditable(false);
-        output.setBorder(new TitledBorder("output"));
+        output.setBorder(new LineBorder(Color.LIGHT_GRAY));
         output.setSize(this.getWidth(), this.getHeight() / 2);
         output.setLineWrap(true);
-
         JScrollPane scrollPane = new JScrollPane(output);
         debug = new JCheckBox("verbose");
-
         container.setLayout(new BorderLayout());
         container.add(input, BorderLayout.NORTH);
         container.add(debug, BorderLayout.SOUTH);
         container.add(scrollPane, BorderLayout.CENTER);
         input.addActionListener(this);
-
         processor = new InputProcessor(swi);
-
         this.setVisible(true);
     }
 
+    /**
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
     public void actionPerformed(ActionEvent e) {
         String inputUCS = input.getText();
-
-        try {
-            output.setText(processor.process(inputUCS, debug.isSelected()));
-        } catch (RecognitionException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (TokenStreamException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
+        output.setText(processor.process(inputUCS, debug.isSelected()));
     }
 
-    // uses values from the properties file
+    /**
+     * @param args
+     *            Not used, uses values from the properties file
+     */
     public static void main(String args[]) {
         Log.init(Config.getString("log_folder"));
         // gui:
         final InterpreterFrame interpreter = new InterpreterFrame(Config
                 .getString("prolog_application"));
         WindowListener wl = new WindowAdapter() {
-
             @Override
             public void windowClosing(WindowEvent e) {
                 interpreter.processor.close();
                 System.exit(0);
             }
-
         };
         interpreter.addWindowListener(wl);
     }
-
 }
