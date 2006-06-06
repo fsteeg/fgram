@@ -1,7 +1,8 @@
 - clean libraries, files packages
-- add javadoc to all classes
-- add licences notice to all files
+- [DONE] add javadoc to all classes
+- [DONE] add licences notice to all files
 - spread prolog so some more files again (controller, ex-rules, lexicon)
-- make naming of ucs.model classes theory-conforming (predicate, term, etc)
-- add past present etc to ANTLR grammar, processing and prolog generator
+- [DONE (somewhat)] make naming of ucs.model classes theory-conforming (predicate, term, etc)
+- [DONE] add past present etc to ANTLR grammar, processing and prolog generator
 - more useful messages from things going wrong on the prolog side
+- check out the best way to change states or streams or whatever in antlr, to get rid of upper/lowercase issues

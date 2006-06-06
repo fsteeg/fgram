@@ -6,8 +6,6 @@
 package de.uni_koeln.spinfo.fg.parser;
 
 import junit.framework.TestCase;
-import antlr.RecognitionException;
-import antlr.TokenStreamException;
 import de.uni_koeln.spinfo.fg.ucs.InputProcessor;
 import de.uni_koeln.spinfo.fg.util.Config;
 import de.uni_koeln.spinfo.fg.util.Log;
