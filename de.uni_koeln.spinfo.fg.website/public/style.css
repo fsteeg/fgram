@@ -26,8 +26,8 @@ hr {
 
 .image1 {
 	border: 0px solid black;
-	width:350px;
-	height:350px;
+	/*width:350px;
+	height:350px;*/
 	float: left;
 	margin-right: 30px;
 	margin-bottom: 10px;
@@ -38,7 +38,7 @@ hr {
 }
 
 .navigation {
-	width: 140px;
+	width: 180px;
 	margin-left: 1.5em;
 	margin-bottom: 1.5em;
 	margin-top: 1.5em;
