@@ -16,7 +16,7 @@ prop(x1, voice, active).
 prop(x1, subnodes, [x2, x3]).
 prop(x1, lex, 'love').
 prop(x1, nav, [v]).
-prop(x1, det, Past).
+prop(x1, det, null).
 
 prop(x2, type, term).
 prop(x2, role, ag).

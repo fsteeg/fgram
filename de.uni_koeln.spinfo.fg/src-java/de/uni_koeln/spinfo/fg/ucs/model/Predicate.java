@@ -14,23 +14,23 @@ import java.util.Collection;
  */
 public class Predicate {
 
-    private Values values;
+    private Term values;
 
     private String role;
 
     private String relation;
 
     public Predicate() {
-        this.values = new Values();
+        this.values = new Term();
     }
 
     public Predicate(String def, String num, String type, String index,
             String form, String nav, Collection<Term> args) {
         super();
-        this.values = new Values(def, num, type, index, form, nav);
+        this.values = new Term(def, "", num, type, index, form, nav);
     }
 
-    public Predicate(Values vals, String role) {
+    public Predicate(Term vals, String role) {
         super();
         this.values = vals;
         this.role = role.toLowerCase();
@@ -92,7 +92,7 @@ public class Predicate {
     // children.add(p);
     // }
 
-    public Values getValues() {
+    public Term getValues() {
         return values;
     }
 

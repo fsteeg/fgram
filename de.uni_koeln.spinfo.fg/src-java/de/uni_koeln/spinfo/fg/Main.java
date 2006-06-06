@@ -17,13 +17,11 @@ import de.uni_koeln.spinfo.fg.util.Log;
  * 
  */
 public class Main {
-	public static PrologEngine engine;
 	//supply two args: swipl-location and log-location, like: /opt/local/bin/swipl /Users/fsteeg/fg-logs
 	public static void main(String args[]) {
-		engine = new SWISubprocessEngine(args[0]);
 		Log.init(args[1]);
 		// gui:
-		InterpreterFrame interpreter = new InterpreterFrame();
+		InterpreterFrame interpreter = new InterpreterFrame(args[0]);
 		WindowListener wl = new WindowAdapter() {
 
 			@Override

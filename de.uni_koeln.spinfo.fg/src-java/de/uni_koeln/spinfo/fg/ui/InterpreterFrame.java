@@ -32,10 +32,12 @@ public class InterpreterFrame extends JFrame implements ActionListener {
     JTextField input;
 
     JTextArea output;
-    
+
     JCheckBox debug;
 
-    public InterpreterFrame() throws HeadlessException {
+    private InputProcessor processor;
+
+    public InterpreterFrame(String swi) throws HeadlessException {
         super();
         this.setSize(new Dimension(600, 200));
         this.setTitle("FG");
@@ -45,7 +47,8 @@ public class InterpreterFrame extends JFrame implements ActionListener {
         input.setEditable(true);
         input.setSize(this.getWidth(), this.getHeight() / 2);
         input.setBorder(new TitledBorder("input"));
-        input.setText("(Past 1e:love[V]: (d1x:man[N])AgSubj (dMx:woman[N])GoObj )");
+        input
+                .setText("(Past E : love [V] : ( D1X : man[N] ) AgSubj ( DMX : woman[N] ) GoObj )");
 
         output = new JTextArea();
         output.setEditable(false);
@@ -55,21 +58,23 @@ public class InterpreterFrame extends JFrame implements ActionListener {
 
         JScrollPane scrollPane = new JScrollPane(output);
         debug = new JCheckBox("verbose");
-        
+
         container.setLayout(new BorderLayout());
         container.add(input, BorderLayout.NORTH);
         container.add(debug, BorderLayout.SOUTH);
         container.add(scrollPane, BorderLayout.CENTER);
         input.addActionListener(this);
 
+        processor = new InputProcessor(swi);
+
         this.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
         String inputUCS = input.getText();
-        InputProcessor processor = new InputProcessor(inputUCS);
+
         try {
-            output.setText(processor.process(debug.isSelected()));
+            output.setText(processor.process(inputUCS, debug.isSelected()));
         } catch (RecognitionException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();

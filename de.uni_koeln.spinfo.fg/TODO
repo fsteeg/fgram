@@ -4,3 +4,4 @@
 - spread prolog so some more files again (controller, ex-rules, lexicon)
 - make naming of ucs.model classes theory-conforming (predicate, term, etc)
 - add past present etc to ANTLR grammar, processing and prolog generator
+- more useful messages from things going wrong on the prolog side

@@ -17,11 +17,11 @@ input returns [Predicate ret = new Predicate()]: ret = predicate (NEWLINE)? ;
 
 //(d1x1:(d2x2:man[N])Ag)
 predicate returns [Predicate ret = new Predicate()]
-	{Predicate p = null; Values v = null; Values recVal = null; boolean foundRole = false;}
+	{Predicate p = null; Term v = null; Term recVal = null; boolean foundRole = false;}
 	:
 	LPAREN^ 
 	( 
-	recVal = values 
+	recVal = term 
 	{	
 		// first
 		if(v==null) {
@@ -44,39 +44,36 @@ predicate returns [Predicate ret = new Predicate()]
 ;
 
 //d1x1:(d2x2:man[N])Ag or d1x1:man[N]
-values returns [Values ret = new Values()]
-	{Predicate pred = null;Values v = null;}
+term returns [Term ret = new Term()]
+	{Predicate pred = null;Term v = null;}
 	: 
 	//d1x1:
-	d:DEF n:NUMBER t:LAYER /*c:INDEX*/ RESTRIKTOR 
-	{ ret = new Values(d.getText(), n.getText(), t.getText(),/*, c.getText(),*/null, null,null); }
+	( d:DEF | tense:TENSE ) (n:NUMBER)? /*c:INDEX*/ t:LAYER RESTRIKTOR
+	
 	//man[N]
 	(
 	w0:WORD /*LBRACK*/ p0:WORD_CLASS /*RBRACK*/ (RESTRIKTOR)?
-	{ ret = new Values(d.getText(), n.getText(), t.getText()/*, c.getText()*/,null, w0.getText(), p0.getText()); }
+	//{ ret = new Term(d!=null?d.getText():null,tense!=null?tense.getText():null, n.getText(), t.getText()/*, c.getText()*/,null, w0.getText(), p0.getText()); }
 	)? 
+	{ ret = new Term(d!=null?d.getText():null,tense!=null?tense.getText():null, n!=null?n.getText():null, t!=null?t.getText():null,/*, c.getText(),*/null, w0!=null?w0.getText():null,p0!=null?p0.getText():null); }
 	// a complex values: d1x1:(d2x2:man[N])...
 	( pred = predicate { ret.addChild(pred); } ) * 
 ;
 	
 class UcsLexer extends Lexer;
-	
-	WORD_CLASS : '['('T' | 'N' | 'V' | 'A')']';
 	ROLE : SEMANTIC_FUNCTION (SYNTACTIC_FUNCTION)?;
-	//FIXME split this up: Def vs Tense...
-	DEF : 'd' | 'i' | "P"("ast" | "res");
-	LAYER : 'f' | 'x' | 'e';
-	SEMANTIC_FUNCTION : "Ag" | "Go"; // etc.
+	SEMANTIC_FUNCTION : "Ag" | "Go" | "Rec";
 	SYNTACTIC_FUNCTION : "Obj" | "Subj";
+	WORD_CLASS : '['('T' | 'N' | 'V' | 'A')']';
+	DEF : 'D' | 'I';
+	TENSE : "P"("ast" | "res");
+	LAYER : 'F' | 'X' | 'E';
 	NUMBER : '1' | '2' | 'M';
 	//INDEX : 'j' | 'k';
-	BLANK : ' ';
+//	BLANK : ' ';
 	LPAREN : '('; RPAREN : ')';
 	RESTRIKTOR : ':';
 //	LBRACK : '['; RBRACK : ']';
 	WORD : ('a'..'z')+;
-	NEWLINE
-    :   '\r' '\n'   // DOS
-    |   '\n'        // UNIX
-    ;
+	NEWLINE : '\r' '\n' /* DOS */ | '\n' /* UNIX */ ;
     

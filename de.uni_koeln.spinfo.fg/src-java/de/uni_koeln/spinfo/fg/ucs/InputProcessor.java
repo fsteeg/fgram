@@ -7,9 +7,9 @@ import java.io.StringReader;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
+import com.declarativa.interprolog.SWISubprocessEngine;
 import com.declarativa.interprolog.TermModel;
 
-import de.uni_koeln.spinfo.fg.Main;
 import de.uni_koeln.spinfo.fg.parser.UcsLexer;
 import de.uni_koeln.spinfo.fg.parser.UcsParser;
 import de.uni_koeln.spinfo.fg.ucs.model.Predicate;
@@ -23,15 +23,15 @@ import de.uni_koeln.spinfo.fg.util.Log;
  */
 public class InputProcessor {
 
-    private String inputUCS;
+    private SWISubprocessEngine engine;
 
     /**
-     * @param inputUCS
-     *            The Predicate to process
+     * 
      */
-    public InputProcessor(String inputUCS) {
+    public InputProcessor(String swi) {
         super();
-        this.inputUCS = inputUCS;
+        System.out.println("SWI: " + swi);
+        this.engine = new SWISubprocessEngine(swi);
     }
 
     /**
@@ -50,8 +50,8 @@ public class InputProcessor {
      * @throws TokenStreamException
      * @throws RecognitionException
      */
-    public String process(boolean verbose) throws RecognitionException,
-            TokenStreamException {
+    public String process(String inputUCS, boolean verbose)
+            throws RecognitionException, TokenStreamException {
         Log.logger.info("Parsing Predicate: " + inputUCS);
 
         // String s = Util.getText(new File("ucs.txt"));
@@ -96,12 +96,12 @@ public class InputProcessor {
                     throw new FileNotFoundException(
                             "File to consult does not exist: "
                                     + fileToConsult.getAbsolutePath());
-                Main.engine.consultAbsolute(fileToConsult);
+                engine.consultAbsolute(fileToConsult);
                 // test: call with a return value of true or false only
-                boolean sucess = Main.engine.deterministicGoal("expression(M)");
+                boolean sucess = engine.deterministicGoal("expression(M)");
                 Log.logger.info("Result of calling Prolog: " + sucess);
                 // prolog call without params, with return value
-                Object[] bindings = Main.engine.deterministicGoal(
+                Object[] bindings = engine.deterministicGoal(
                         "expression(PrologResult), name(Result,PrologResult)",
                         "[string(Result)]");
                 System.out.println("Bindings is: " + bindings);
@@ -112,8 +112,8 @@ public class InputProcessor {
                 String goal = "nonDeterministicGoal(X,expression_result(X),ListModel)";
                 // Notice that 'ListModel' is referred in both deterministicGoal
                 // arguments:
-                TermModel solutionVars = (TermModel) (Main.engine
-                        .deterministicGoal(goal, "[ListModel]")[0]);
+                TermModel solutionVars = (TermModel) (engine.deterministicGoal(
+                        goal, "[ListModel]")[0]);
                 if (solutionVars.isList()) {
                     Log.logger.info("Is list!");
                     prologResult = "" + solutionVars;
@@ -131,11 +131,15 @@ public class InputProcessor {
                 else
                     return "Something went wrong (select verbose for details).";
             }
-            // TODO: set the output text to the real result from the prolog call
+
             if (verbose) {
                 return result + "\nReturned from Prolog call: " + prologResult;
             } else
                 return prologResult.replaceAll("[\\[\\],]", " ").trim();
         }
+    }
+
+    public void close() {
+        engine.shutdown();
     }
 }

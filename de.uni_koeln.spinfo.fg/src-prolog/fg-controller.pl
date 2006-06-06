@@ -3,7 +3,7 @@
 %:- initialization ensure_loaded('underly.pl').
 expression(Res) :-
 	consult('src-prolog/generated_ucs.pl'),
-%	consult('generated_ucs.pl'),
+	%consult('generated_ucs.pl'),
 	retractall(expression_result(_)),
     node(StartNode, 0),
     formStructureFromNode(StartNode, Predication),

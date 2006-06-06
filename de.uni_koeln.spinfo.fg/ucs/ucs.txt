@@ -1,8 +1,4 @@
-(past 1x:love[V]:
-	(d1x:man[N])Go
-	(iPx:woman[N])AgSubj 
-	(d1x:
-		(dPx:bus[N])Go
-		(iMx:tree[N])GoSubj 
-	)
+(Past E:love[V]: 
+	(D1X:man[N])AgSubj 
+	(DMX:woman[N])GoObj
 )
