@@ -51,12 +51,15 @@ public class InputProcessorTest extends TestCase {
      * expressions
      */
     public void testProcessFromString() {
-        process("(E:love[V]:(X:man[N])(DMX:woman[N])Go Obj)",
+        process("(E:love[V]:(X:man[N])(DMX:woman[N])GoObj)",
                 "The man loves the women");
-        process("(E:please[V]:(X:man[N])(DMX:woman[N])Go Obj)",
+        process("(E:please[V]:(X:man[N])(DMX:woman[N])GoObj)",
                 "The man pleases the women");
-        process("(Past E:please[V]:(X:man[N])(DMX:woman[N])Go Obj)",
+        process("(Past E:please[V]:(X:man[N])(DMX:woman[N])GoObj)",
                 "The man pleased the women");
+        //should this work?
+//        process("(Past E:please[V]:(X:man[N]:(E:eager[A]))(DMX:woman[N])GoObj)",
+//        "The eager man pleased the women");
     }
 
     private void process(String ucs, String res) {

@@ -112,9 +112,14 @@ public class InputProcessor {
         File fileToConsult = loadFile();
         try {
             engine.consultAbsolute(fileToConsult);
+//            engine.setDebug(true);
             Object[] bindings = engine.deterministicGoal(
                     "expression(PrologResult), name(Result,PrologResult)",
                     "[string(Result)]");
+            if(bindings==null){
+                return "No result from calling Prolog. This should mean Prolog answered \"No.\"";
+            }
+//            engine.setDebug(false);
             Log.logger.debug("Result of calling Prolog: " + bindings[0]);
             if (bindings[0] instanceof String)
                 prologResult = (String) bindings[0];

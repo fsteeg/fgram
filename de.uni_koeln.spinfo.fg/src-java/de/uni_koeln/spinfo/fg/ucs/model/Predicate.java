@@ -43,7 +43,7 @@ public class Predicate {
         this.term = term;
         this.role = role.equals("") ? Config.getString("default_role") : Config
                 .getString(role.toLowerCase());
-        this.relation = relation.equals("") ? Config
+        this.relation = relation == null || relation.equals("") ? Config
                 .getString("default_relation") : Config.getString(relation
                 .toLowerCase());
     }
