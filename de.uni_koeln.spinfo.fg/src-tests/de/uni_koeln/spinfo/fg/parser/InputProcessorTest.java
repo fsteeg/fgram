@@ -32,16 +32,18 @@ public class InputProcessorTest extends TestCase {
      */
     public void testProcessFromFile() {
         String text = Util.getText("ucs/ucs.txt");
+        text = text.replaceAll("\\s", "");
         assertTrue("Problem on opening text", text != null);
         assertTrue("Problem on creating InputProcessor", inputProcessor != null);
         String process = inputProcessor.process(text, false);
         assertTrue("No Result!", process != null);
+        System.out.println(process);
         process = inputProcessor.process(
-                "(E:love[V]:(X:man[N])(DMX:woman[N])Go Obj)", false);
+                "(e:/love/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)", false);
         assertTrue("No Result!", process != null);
         System.out.println(process);
         process = inputProcessor.process(
-                "(E:please[V]:(X:man[N])(DMX:woman[N])Go Obj)", false);
+                "(e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])Go Obj)", false);
         assertTrue("No Result!", process != null);
         System.out.println(process);
     }
@@ -51,11 +53,11 @@ public class InputProcessorTest extends TestCase {
      * expressions
      */
     public void testProcessFromString() {
-        process("(E:love[V]:(X:man[N])(DMX:woman[N])GoObj)",
+        process("(e:/love/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
                 "The man loves the women");
-        process("(E:please[V]:(X:man[N])(DMX:woman[N])GoObj)",
+        process("(e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
                 "The man pleases the women");
-        process("(Past E:please[V]:(X:man[N])(DMX:woman[N])GoObj)",
+        process("(past e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
                 "The man pleased the women");
         //should this work?
 //        process("(Past E:please[V]:(X:man[N]:(E:eager[A]))(DMX:woman[N])GoObj)",

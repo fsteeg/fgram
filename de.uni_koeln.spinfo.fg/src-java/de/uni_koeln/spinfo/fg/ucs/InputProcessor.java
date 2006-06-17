@@ -101,7 +101,8 @@ public class InputProcessor {
 
     private String preprocess(String inputUCS) {
         // remove all weird special chars from the input ucs
-        String s = inputUCS.replaceAll("[^a-zA-Z0-9\\[\\]\\(\\):-]", "");
+//        String s = inputUCS.replaceAll("[^a-zA-Z0-9\\[\\]\\(\\):-]", "");
+        String s = inputUCS.replaceAll("\\s", "");
         return s;
     }
 

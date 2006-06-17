@@ -40,7 +40,7 @@ predicate returns [Predicate ret = new Predicate()]
 	RPAREN 
 	(
 	// role given
-	role:SEMANTIC_FUNCTION (relation:SYNTACTIC_FUNCTION)? 
+	role:SEMANTIC_FUNCTION (relation:SYNTACTIC_FUNCTION)? (prag:PRAGMATIC_FUNCTION)? //TODO implement prag func.
 	{ ret = new Predicate(v,role.getText(), relation!=null?relation.getText():null); foundRole = true; }
 	)?
 	// no role
@@ -62,15 +62,71 @@ term returns [Term ret = new Term()]
 ;
 	
 class UcsLexer extends Lexer;
-	SEMANTIC_FUNCTION : "Ag" | "Go" | "Rec";
-	SYNTACTIC_FUNCTION : "Obj" | "Subj";
-	WORD_CLASS : '['('T' | 'N' | 'V' | 'A')']';
-	DEF : 'D' | 'I';
-	TENSE : "P"("ast" | "res" | "erf");
-	LAYER : 'F' | 'X' | 'E';
-	NUMBER : '1' | '2' | 'M';
-	LPAREN : '('; RPAREN : ')';
+	SEMANTIC_FUNCTION 
+		: "Ag" 		// agent
+		| "Go" 		// goal
+		| "Re"("c" 	// recipient
+		| "f") 		// reference
+		| "Ben" 	// beneficiary
+		| "C"("irc"	// circumstance 
+		| "omp") 	// company
+		| "Dir" 	// direction
+		| "Exp" 	// experiencer
+		| "Fo" 		// force
+		| "Loc" 	// location
+		| "Man" 	// manner
+		| "P"(("o"	// positioner
+		( "ss")?)	// possessor
+		| "roc")  	// processed
+		//| "So" 		// source
+		| "Temp" 	// time
+		| "Instr" 	// instrument
+		| "0" 		// zero
+		;
+	SYNTACTIC_FUNCTION 
+		: "Obj" 	// object
+		| "Subj" 	// subject
+		;
+	// states...
+	PRAGMATIC_FUNCTION 
+		//: "Foc" 	// focus
+		//: "GivTop"// given topic
+		: "NewTop" 	// new topic
+		//| "Or" 	// orientation
+		//| "ResTop"// resumed topic
+		//| "SubTop"// sub-topic
+		//| "Top" 	// topic
+		;
+	WORD_CLASS : '['
+		( 'T' 		// any word class 
+		| 'A' 		// adjective
+		| 'V' 		// verb 
+		| 'N' 		// noun
+		)']';
+	DEF 
+		: 'd' 		// definite
+		| 'i' 		// indefinite
+		;
+	//should actually be uppercase, but taken by sem roles...
+	TENSE
+		: "p"("ast" // past
+		| "res"  	// present
+		| "erf"); 	// perfect
+	LAYER 
+		: 'f' 		// predicate
+		| 'x' 		// term
+		| 'e' 		// predication
+		| 'E' 		// clause
+		| 'X' 		// proposition
+		;
+	NUMBER 
+		: '1' 		// sing
+		| '2' 		// dual
+		| 'm' 		// plural 'many'
+		;
+	LPAREN : '('; 
+	RPAREN : ')';
 	RESTRIKTOR : ':';
-	WORD : ('a'..'z')+;
+	WORD : '/' ('a'..'z' | 'A'..'Z')+ '/';
 	NEWLINE : '\r' '\n' /* DOS */ | '\n' /* UNIX */;
     

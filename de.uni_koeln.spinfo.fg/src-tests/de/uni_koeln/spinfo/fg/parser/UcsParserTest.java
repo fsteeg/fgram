@@ -40,7 +40,9 @@ public class UcsParserTest extends TestCase {
     public void testParser() {
         String s = Util.getText("ucs/ucs.txt");
         assertTrue("Error while reading UCS from file", s != null);
-        s = s.replaceAll("[^a-zA-Z0-9\\[\\]\\(\\):-]", "");
+        //s = s.replaceAll("[^a-zA-Z0-9\\[\\]\\(\\):-]", "");
+        s = s.replaceAll("\\s", "");
+//        inputProcessor.process(s, true);
         System.out.println("UCS: " + s);
         UcsLexer lexer = new UcsLexer(new StringReader(s));
         assertTrue("Error while instantiating Lexer", lexer != null);
