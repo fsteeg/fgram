@@ -38,7 +38,7 @@ public class UcsParserTest extends TestCase {
      * parser, generates and writes prolog.
      */
     public void testParser() {
-        String s = Util.getText("ucs/ucs.txt");
+        String s = Util.getText("ucs/ucs-for-parser-test.txt");
         assertTrue("Error while reading UCS from file", s != null);
         //s = s.replaceAll("[^a-zA-Z0-9\\[\\]\\(\\):-]", "");
         s = s.replaceAll("\\s", "");

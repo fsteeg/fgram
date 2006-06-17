@@ -1,13 +1,15 @@
-- clean libraries, files packages
-- spread prolog so some more files again (controller, ex-rules, lexicon)
-- more useful messages from things going wrong on the prolog side
-- check out the best way to change states or streams or whatever in antlr, to get rid of upper/lowercase issues
-- more info on lexicon, available words etc...
+TODO
+
 - important: check out some more complex structure that should work with the prolog ex. rules...
-- make the old, prolog-only version available on the website, sf release system?
+- more useful messages from things going wrong on the prolog side, more info on lexicon, available words etc...
+- check out the best way to change states or streams or whatever in antlr, to get all roles and correct upper/lower
+- mention dialog-based version on website
 
 Done (changelog)
+
 - [DONE] add javadoc to all classes
 - [DONE] add licences notice to all files
-- [DONE (somewhat)] make naming of ucs.model classes theory-conforming (predicate, term, etc)
+- [DONE] (somewhat) make naming of ucs.model classes theory-conforming (predicate, term, etc)
 - [DONE] add past present etc to ANTLR grammar, processing and prolog generator
+- [DONE] clean libraries, files, packages
+- [DONE] spread prolog so some more files again (controller, ex-rules, lexicon)

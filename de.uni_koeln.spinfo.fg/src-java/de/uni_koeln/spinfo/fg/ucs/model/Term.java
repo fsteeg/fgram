@@ -56,8 +56,9 @@ public class Term {
                 : Config.getString("default_num");
         this.layer = layer;
         this.wordClass = wordClass;
-        //TODO temp
-        this.wordForm = wordForm.replaceAll("/", "");
+        // TODO temp
+        this.wordForm = wordForm == null || wordForm.equals("") ? "" : wordForm
+                .replaceAll("/", "");
         this.children = new ArrayList<Predicate>();
     }
 
