@@ -87,6 +87,20 @@ initializeSubnode(ActNode, [_Theme, _Subject, Object, _RestArgs, _Satellites]) :
     % Then: Form the respective structure and store it in Object.
     formStructureFromNode(ActNode, Object).
 
+initializeSubnode(ActNode, [_Theme, _Subject, _Object, [RestArg], _Satellites]) :-
+    % Is ActNode the (non-Theme) Object of the sentence?
+    readProp(ActNode, relation, restarg),
+    readProp(ActNode, role, Role), write('Role for restarg: '), write(role), nl,
+    % Then: Form the respective structure and store it in RestArgs.
+    formStructureFromNode(ActNode, RestArg1), nl, write('huhu: '), write(RestArg1), nl,
+    insertRole(Role, RestArg1, RestArg),
+    nl, write('new restarg: '), write(RestArg) .
+
+insertRole(Role, [_, E2, E3, E4, E5, E6, E7], [Role, E2, E3, E4, E5, E6, E7]) :-
+	write('role: '),write(Role),nl,
+	write('hehe: '),write([Role, E2, E3, E4]).
+
+
 % readProp encapsulates the access to the prop-entries because
 % some of the entries need to be transformed during retrieval.
 readProp(Node, PropType, Value) :-
