@@ -23,6 +23,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import antlr.RecognitionException;
+import antlr.TokenStreamException;
+
 import de.uni_koeln.spinfo.fg.ucs.InputProcessor;
 import de.uni_koeln.spinfo.fg.util.Config;
 import de.uni_koeln.spinfo.fg.util.Log;
@@ -51,7 +54,7 @@ public class InterpreterFrame extends JFrame implements ActionListener {
      */
     public InterpreterFrame(String swi) throws HeadlessException {
         super();
-        this.setSize(new Dimension(600, 200));
+        this.setSize(new Dimension(650, 200));
         this.setTitle("FGRAM");
         Container container = this.getContentPane();
         input = new JTextField();
@@ -80,7 +83,18 @@ public class InterpreterFrame extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         String inputUCS = input.getText();
-        output.setText(processor.process(inputUCS, debug.isSelected()));
+        try {
+            String process = processor.process(inputUCS, debug.isSelected());
+            output.setText(process);
+        } catch (RecognitionException e1) {
+            output.setText(e1.toString());
+            input.setCaretPosition(Integer.parseInt(e1.toString().replaceAll("[^0-9]:", "").split(":")[1]));
+            e1.printStackTrace();
+        } catch (TokenStreamException e1) {
+            output.setText(e1.toString());
+            input.setCaretPosition(Integer.parseInt(e1.toString().replaceAll("[^0-9]:", "").split(":")[1]));
+            e1.printStackTrace();
+        }
     }
 
     /**

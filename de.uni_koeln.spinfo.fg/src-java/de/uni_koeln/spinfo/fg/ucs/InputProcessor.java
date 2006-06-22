@@ -58,8 +58,10 @@ public class InputProcessor {
      *            If true, genrated prolog will be retuned with the result
      * @return Will return the actual linguistic expression mapped to the
      *         input-ucs
+     * @throws TokenStreamException 
+     * @throws RecognitionException 
      */
-    public String process(String inputUCS, boolean verbose) {
+    public String process(String inputUCS, boolean verbose) throws RecognitionException, TokenStreamException {
         Log.logger.debug("UCS: " + inputUCS);
         String s = preprocess(inputUCS);
         Log.logger.debug("Parsing UCS...");
@@ -78,32 +80,36 @@ public class InputProcessor {
         engine.shutdown();
     }
 
-    /***************************************************************************
+    /**
+     * @throws TokenStreamException 
+     * @throws RecognitionException *************************************************************************
      * *************************************************************************
      **************************************************************************/
 
-    private Predicate parse(String s) {
+    private Predicate parse(String s) throws RecognitionException, TokenStreamException {
         // use antlr-generated lexer and parser to parse the input ucs
         UcsLexer lexer = new UcsLexer(new StringReader(s));
         UcsParser parser = new UcsParser(lexer);
         Predicate p = null;
-        String errorMessage = "Parsing of Predicate '" + s + "' failed! ";
-        try {
+//        String errorMessage = "Parsing of Predicate '" + s + "' failed! ";
+//        try {
             p = parser.input();
-        } catch (RecognitionException e) {
-            Log.logger.debug(errorMessage);
-            e.printStackTrace();
-        } catch (TokenStreamException e) {
-            Log.logger.debug(errorMessage);
-            e.printStackTrace();
-        }
+//        } catch (RecognitionException e) {
+////            System.out.println("Huhu: " + e.getMessage());
+//            Log.logger.debug(errorMessage);
+//            e.printStackTrace();
+//        } catch (TokenStreamException e) {
+////            System.out.println("Huhu: " + e.getMessage());
+//            Log.logger.debug(errorMessage);
+//            e.printStackTrace();
+//        }
         return p;
     }
 
     private String preprocess(String inputUCS) {
         // remove all weird special chars from the input ucs
 //        String s = inputUCS.replaceAll("[^a-zA-Z0-9\\[\\]\\(\\):-]", "");
-        String s = inputUCS.replaceAll("\\s", "");
+        String s = inputUCS.replaceAll("\\s+", "");
         return s;
     }
 
@@ -142,8 +148,10 @@ public class InputProcessor {
             if (verbose) {
                 return generatedProlog + "\nReturned from Prolog call: "
                         + prologResult;
-            } else
-                return prologResult.replaceAll("[\\[\\],]", " ").trim();
+            } else {
+                String trim = prologResult.replaceAll(",+"," ").replaceAll("[\\[\\]]", " ").trim();
+                return trim;
+            }
         } catch (Exception t) {
             t.printStackTrace();
             if (verbose)

@@ -2,11 +2,15 @@ TODO
 
 - important: check out some more complex structure that should work with the prolog ex. rules... 
   (dreistellige verben, nebensaetze, adjektive, zweimal man -> them...)
-- adjektive in ucs...
-- perfect vs. perfective
 - add pragmatic functions to ucs and processing
 - more useful messages from things going wrong on the prolog side, more info on lexicon, available words etc...
 - check out the best way to change states or streams or whatever in antlr, to get all roles and correct upper/lower
+- enable for two aspects, multiple modifiers, stuff like that...
+
+Bugs
+
+- modifier only work on plural, not sing..., definiteness sometimes leads to "No."...
+- plural doesnt always work: no "are"
 
 Done (changelog)
 
@@ -16,6 +20,9 @@ Done (changelog)
 - [DONE] add past present etc to ANTLR grammar, processing and prolog generator
 - [DONE] clean libraries, files, packages
 - [DONE] spread prolog so some more files again (controller, ex-rules, lexicon)
+- [DONE] adjektive in ucs...
+- [DONE] perfect vs. perfective
+- [DONE] Notify user of parse errors in gui
 
 Poster, Inhalt
 

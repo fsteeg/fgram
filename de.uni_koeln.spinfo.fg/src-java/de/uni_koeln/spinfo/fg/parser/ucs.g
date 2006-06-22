@@ -52,7 +52,7 @@ term returns [Term ret = new Term()]
 	{Predicate pred = null;Term v = null;}
 	: 
 	// D1X:
-	( d:DEF | tense:TENSE)? (n:NUMBER)? /*c:INDEX*/ t:LAYER RESTRIKTOR
+	( d:DEF | tense:TENSE)? (aspect:ASPECT)? (n:NUMBER)? /*c:INDEX*/ t:LAYER RESTRIKTOR
 	( // man[N]
 	w0:WORD p0:WORD_CLASS (RESTRIKTOR)?
 	)? 
@@ -60,7 +60,7 @@ term returns [Term ret = new Term()]
 	( // old[A]
 	w1:WORD p1:WORD_CLASS (RESTRIKTOR)?
 	)? 
-	{ ret = new Term(d!=null?d.getText():null,tense!=null?tense.getText():null, n!=null?n.getText():null, t!=null?t.getText():null,/*, c.getText()*/ w0!=null?w0.getText():null,p0!=null?p0.getText():null,w1!=null?w1.getText():null,p1!=null?p1.getText():null); }
+	{ ret = new Term(d!=null?d.getText():null,tense!=null?tense.getText():null,aspect!=null?aspect.getText():null, n!=null?n.getText():null, t!=null?t.getText():null,/*, c.getText()*/ w0!=null?w0.getText():null,p0!=null?p0.getText():null,w1!=null?w1.getText():null,p1!=null?p1.getText():null); }
 	// a complex term: D1X:(MDX:man[N])...
 	( pred = predicate { ret.getChildren().add(pred); } ) * 
 ;
@@ -79,12 +79,12 @@ class UcsLexer extends Lexer;
 		| "Fo" 		// force
 		| "Loc" 	// location
 		| "Man" 	// manner
-		| "P"(("o"	// positioner
-		( "ss")?)	// possessor
-		| "roc")  	// processed
+	//	| "P"(("o"	// positioner
+	//	( "ss")?)	// possessor
+	//	| "roc")  	// processed
 		//| "So" 		// source
 		| "Temp" 	// time
-		| "Instr" 	// instrument
+	//	| "Instr" 	// instrument
 		| "0" 		// zero
 		;
 	SYNTACTIC_FUNCTION 
@@ -113,12 +113,19 @@ class UcsLexer extends Lexer;
 		;
 	//should actually be uppercase, but taken by sem roles... need states or such for that
 	TENSE
-		: "p"
-		( "ast" 	// past
-		| "res"  	// present
-		| "erf") 	// perfect
-		( "prog")?  // progressive TODO...
+		: 
+		  "Impf" 
+	//	| 
+		//"Ant"
+		//;
+		//"Past"
+		//: "P"
+		//( "ast" 	// past
+		//| "res" ) 	// present
 		;
+	
+	ASPECT
+		: "P"("f"|"rog");
 
 	LAYER 
 		: 'f' 		// predicate
@@ -135,6 +142,7 @@ class UcsLexer extends Lexer;
 	LPAREN : '('; 
 	RPAREN : ')';
 	RESTRIKTOR : ':';
-	WORD : '/' ('a'..'z' | 'A'..'Z')+ '/';
+	WORD : '\'' ('a'..'z' | 'A'..'Z')+ '\'';
+//	BLANK : ' ';
 	NEWLINE : '\r' '\n' /* DOS */ | '\n' /* UNIX */;
     

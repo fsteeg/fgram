@@ -1,8 +1,8 @@
-(d1x:/love/[V]:
-	(d2x:/man/[N])Go 
-	(imx:/woman/[N])RecSubj 
+(d1x:'love'[V]:
+	(d2x:'man'[N])Go 
+	(imx:'woman'[N])RecSubj 
 	(d1x:
-		(d2x:/bus/[N])Go 
-		(imx:/tree/[N])RecSubj 
+		(d2x:'bus'[N])Go 
+		(imx:'tree'[N])RecSubj 
 	)
 )

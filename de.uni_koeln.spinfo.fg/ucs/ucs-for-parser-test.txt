@@ -1,37 +1,37 @@
 
 
-( perf e : /love/ [V] :
+( Pf e : 'love' [V] :
 	
-	( x 	: /man/  	[N] : /strong/ [A] ) Ag Subj
-	( d m x : /axe/ 	[N] ) Go Obj
-	( d m x : /woman/ 	[N] ) Ben Obj
-	( d m x : /axe/		[N] ) Rec Obj
-	( d m x : /woman/	[N] ) 0 Obj NewTop
+	( x 	: 'man'  	[N] : 'strong' [A] ) Ag Subj
+	( d m x : 'axe' 	[N] ) Go Obj
+	( d m x : 'woman' 	[N] ) Ben Obj
+	( d m x : 'axe'		[N] ) Rec Obj
+	( d m x : 'woman'	[N] ) 0 Obj NewTop
 	
-	( past e : /love/ 	[V] :
+	( Impf e : 'love' 	[V] :
 	
-		( perf e : /love/ [V] :
+		( Pf e : 'love' [V] :
 		
-			( x 	: /man/		[N] ) Rec Subj
-			( d m x : /axe/		[N] ) Ref Obj
-			( d m x : /woman/	[N] ) Circ Obj
-			( d m x : /axe/		[N] ) Comp Obj
-			( d m x : /woman/	[N] ) Dir
+			( x 	: 'man'		[N] ) Rec Subj
+			( d m x : 'axe'		[N] ) Ref Obj
+			( d m x : 'woman'	[N] ) Circ Obj
+			( d m x : 'axe'		[N] ) Comp Obj
+			( d m x : 'woman'	[N] ) Dir
 		)
 		
-		( x		: /man/ 	[N] ) Exp Subj
-		( d m x	: /axe/		[N] ) Fo Obj
-		( d m x	: /woman/	[N] ) Loc Obj
-		( d m x	: /axe/		[N] ) Man Obj
-		( d m x	: /woman/	[N] ) Poss
+		( x		: 'man' 	[N] ) Exp Subj
+		( d m x	: 'axe'		[N] ) Fo Obj
+		( d m x	: 'woman'	[N] ) Loc Obj
+		( d m x	: 'axe'		[N] ) Man Obj
+		( d m x	: 'woman'	[N] ) 
 		
-		( pres e : /love/ [V] :
+		( Impf Prog e : 'love' [V] :
 			
-			( x		: /man/ 	[N] ) Po Subj
-			( d m x	: /axe/		[N] ) Proc Obj
-			( d m x	: /woman/	[N] ) Temp Obj
-			( d m x : /axe/		[N] ) Instr Obj
-			( d m x	: /woman/	[N] ) Dir
+			( x		: 'man' 	[N] ) Dir Subj
+			( d m x	: 'axe'		[N] ) Ag Obj
+			( d m x	: 'woman'	[N] ) Temp Obj
+			( d m x : 'axe'		[N] ) Ag Obj
+			( d m x	: 'woman'	[N] ) Dir
 		)
 	)
 )
