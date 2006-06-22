@@ -1,9 +1,10 @@
 TODO
 
-- important: check out some more complex structure that should work with the prolog ex. rules...
+- important: check out some more complex structure that should work with the prolog ex. rules... 
+  (dreistellige verben, nebensaetze, adjektive, zweimal man -> them...)
+- add pragmatic functions to ucs and processing
 - more useful messages from things going wrong on the prolog side, more info on lexicon, available words etc...
 - check out the best way to change states or streams or whatever in antlr, to get all roles and correct upper/lower
-- mention dialog-based version on website
 
 Done (changelog)
 
