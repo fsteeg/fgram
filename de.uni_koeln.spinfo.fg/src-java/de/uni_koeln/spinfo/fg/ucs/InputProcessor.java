@@ -38,6 +38,7 @@ public class InputProcessor {
     public InputProcessor(String swi) {
         super();
         this.engine = new SWISubprocessEngine(swi);
+        engine.consultAbsolute(loadFile());
     }
 
     /**
@@ -110,9 +111,9 @@ public class InputProcessor {
             boolean verbose) {
         // call prolog using interprolog
         String prologResult = null;
-        File fileToConsult = loadFile();
+//        File fileToConsult = loadFile();
         try {
-            engine.consultAbsolute(fileToConsult);
+//            engine.consultAbsolute(loadFile());
 //            engine.setDebug(true);
             Object[] bindings = engine.deterministicGoal(
                     "expression(PrologResult), name(Result,PrologResult)",

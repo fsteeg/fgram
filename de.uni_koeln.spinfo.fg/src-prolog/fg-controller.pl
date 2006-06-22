@@ -40,7 +40,7 @@ formStructureFromNode(Node, Term) :-
     readProp(Node, proper, Proper),
     readProp(Node, det, Det),
     readProp(Node, num, Num),
-    readProp(Node, modifs, Modifs),
+    readProp(Node, modifs, Modifs), write('Modifs: '), write(Modifs), nl,
     /* Should be changed by time because only expression_rules should
        be used from the old program. */
     formTerm(noun, Det, Num, Lex, Role, Modifs, Term, Alist, Alist3, Q, Qt, Ill).

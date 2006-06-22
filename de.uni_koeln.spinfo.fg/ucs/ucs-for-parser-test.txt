@@ -1,7 +1,8 @@
 
+
 ( perf e : /love/ [V] :
 	
-	( x 	: /man/ 	[N] ) Ag Subj
+	( x 	: /man/  	[N] : /strong/ [A] ) Ag Subj
 	( d m x : /axe/ 	[N] ) Go Obj
 	( d m x : /woman/ 	[N] ) Ben Obj
 	( d m x : /axe/		[N] ) Rec Obj

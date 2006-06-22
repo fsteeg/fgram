@@ -2,6 +2,8 @@ TODO
 
 - important: check out some more complex structure that should work with the prolog ex. rules... 
   (dreistellige verben, nebensaetze, adjektive, zweimal man -> them...)
+- adjektive in ucs...
+- perfect vs. perfective
 - add pragmatic functions to ucs and processing
 - more useful messages from things going wrong on the prolog side, more info on lexicon, available words etc...
 - check out the best way to change states or streams or whatever in antlr, to get all roles and correct upper/lower
@@ -14,3 +16,23 @@ Done (changelog)
 - [DONE] add past present etc to ANTLR grammar, processing and prolog generator
 - [DONE] clean libraries, files, packages
 - [DONE] spread prolog so some more files again (controller, ex-rules, lexicon)
+
+Poster, Inhalt
+
+- Warum: Was soll das ganze? 
+  Nich Prolog-Teil, sondern Parser
+  Frontend weg vom Dialog hin zu Eingabeformat 
+  --> Beispiel UCS, Prolog-Format (UCS, Baum, Prolog)
+  Erprobung FG-Format Repräsentation
+  Austauschbare Module... MVC
+- Wie: Architektur
+  --> Graphik mit Beschreibung der Teile 
+
+
+Poster, Vorstellung
+
+- Altes Programm mit Dialog --> FG-Notation, Eingabeformat
+- Was bringts dem Linguisten/Anwender: Using FG-Notation
+- Was bringts dem Computerlinguisten/Programmierer: Modularitaet, 
+  definierte Schnittstelle --> Beschreibungssprache
+- Fernziel: Durch Modularitaet ein flexibles System mit abstr. Expr. rules...

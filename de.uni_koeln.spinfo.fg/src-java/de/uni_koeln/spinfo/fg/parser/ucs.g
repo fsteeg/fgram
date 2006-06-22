@@ -56,7 +56,11 @@ term returns [Term ret = new Term()]
 	( // man[N]
 	w0:WORD p0:WORD_CLASS (RESTRIKTOR)?
 	)? 
-	{ ret = new Term(d!=null?d.getText():null,tense!=null?tense.getText():null, n!=null?n.getText():null, t!=null?t.getText():null,/*, c.getText()*/ w0!=null?w0.getText():null,p0!=null?p0.getText():null); }
+	//TODO multiple modifs
+	( // old[A]
+	w1:WORD p1:WORD_CLASS (RESTRIKTOR)?
+	)? 
+	{ ret = new Term(d!=null?d.getText():null,tense!=null?tense.getText():null, n!=null?n.getText():null, t!=null?t.getText():null,/*, c.getText()*/ w0!=null?w0.getText():null,p0!=null?p0.getText():null,w1!=null?w1.getText():null,p1!=null?p1.getText():null); }
 	// a complex term: D1X:(MDX:man[N])...
 	( pred = predicate { ret.getChildren().add(pred); } ) * 
 ;

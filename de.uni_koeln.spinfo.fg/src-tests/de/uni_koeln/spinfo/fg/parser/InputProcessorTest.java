@@ -17,74 +17,83 @@ import de.uni_koeln.spinfo.fg.util.Util;
  * @author Fabian Steeg (fsteeg)
  */
 public class InputProcessorTest extends TestCase {
-    private InputProcessor inputProcessor;
+	private InputProcessor inputProcessor;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        Log.init(Config.getString("log_folder"));
-        inputProcessor = new InputProcessor(Config
-                .getString("prolog_application"));
+	protected void setUp() throws Exception {
+		super.setUp();
+		Log.init(Config.getString("log_folder"));
+		inputProcessor = new InputProcessor(Config
+				.getString("prolog_application"));
 
-    }
+	}
 
-    /**
-     * Loads ucs from string, generates expression
-     */
-    public void testProcessFromFile() {
-        String text = Util.getText("ucs/ucs.txt");
-        text = text.replaceAll("\\s", "");
-        assertTrue("Problem on opening text", text != null);
-        assertTrue("Problem on creating InputProcessor", inputProcessor != null);
-        String process = inputProcessor.process(text, false);
-        assertTrue("No Result!", process != null);
-        System.out.println(process);
-        process = inputProcessor.process(
-                "(e:/love/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)", false);
-        assertTrue("No Result!", process != null);
-        System.out.println(process);
-        process = inputProcessor.process(
-                "(e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])Go Obj)", false);
-        assertTrue("No Result!", process != null);
-        System.out.println(process);
-    }
+	/**
+	 * Loads ucs from string, generates expression
+	 */
+	public void testProcessFromFile() {
+		String text = Util.getText("ucs/ucs.txt");
+		text = text.replaceAll("\\s", "");
+		assertTrue("Problem on opening text", text != null);
+		assertTrue("Problem on creating InputProcessor", inputProcessor != null);
+		String process = inputProcessor.process(text, false);
+		assertTrue("No Result!", process != null);
+		System.out.println(process);
+		process = inputProcessor
+				.process(
+						"(e:/love/[V]:(x:/man/[N])AgSubj (dmx:/woman/[N])GoObj)",
+						false);
+		assertTrue("No Result!", process != null);
+		System.out.println(process);
+		process = inputProcessor.process(
+				"(e:/please/[V]:(x:/man/[N])AgSubj (dmx:/woman/[N])Go Obj)",
+				false);
+		assertTrue("No Result!", process != null);
+		System.out.println(process);
+	}
 
-    /**
-     * Tests two ucs given in code and checks correctness of the generated
-     * expressions
-     */
-    public void testProcessFromString() {
-        process("(e:/love/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
-                "The man loves the women");
-        process("(e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
-                "The man pleases the women");
-        process("(past e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
-                "The man pleased the women");
-        process("(past prog e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
-                "The man was pleasing the women");
-        process("(pres prog e : /please/ [V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
-                "The man is pleasing the women");
-        process("(perf prog e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
-                "The man has been pleasing the women");
-        process("(perf e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
-                "The man has pleased the women");
-        // TODO what about this? should this work?
-        // process("(Past
-        // E:please[V]:(X:man[N]:(E:eager[A]))(DMX:woman[N])GoObj)",
-        // "The eager man pleased the women");
-    }
+	/**
+	 * Tests two ucs given in code and checks correctness of the generated
+	 * expressions
+	 */
+	public void testProcessFromString() {
+		process("(e:/love/[V]:(x:/man/[N])AgSubj(dmx:/woman/[N])GoObj)",
+				"The man loves the women");
+		process("(e:/please/[V]:(x:/man/[N])AgSubj(dmx:/woman/[N])GoObj)",
+				"The man pleases the women");
+		process("(past e:/please/[V]:(x:/man/[N])AgSubj(dmx:/woman/[N])GoObj)",
+				"The man pleased the women");
+		process(
+				"(past prog e:/please/[V]:(x:/man/[N])AgSubj(dmx:/woman/[N])GoObj)",
+				"The man was pleasing the women");
+		process(
+				"(pres prog e : /please/ [V]:(x:/man/[N])AgSubj(dmx:/woman/[N])GoObj)",
+				"The man is pleasing the women");
+		process(
+				"(perf prog e:/please/[V]:(x:/man/[N])AgSubj(dmx:/woman/[N])GoObj)",
+				"The man has been pleasing the women");
+		process("(perf e:/please/[V]:(x:/man/[N])AgSubj(dmx:/woman/[N])GoObj)",
+				"The man has pleased the women");
+		process(
+				"(perf e:/love/[V]:(x:/man/[N])AgSubj(dmx:/woman/[N]:/old/[A])GoObj)",
+				"The man has loved the old women");
+		// TODO what about this? should this work?
+		// process("(Past
+		// E:please[V]:(X:man[N]:(E:eager[A]))(DMX:woman[N])GoObj)",
+		// "The eager man pleased the women");
+	}
 
-    private void process(String ucs, String res) {
-        String process;
-        process = inputProcessor.process(ucs, false);
-        assertTrue("No Result!", process != null);
-        assertEquals("Wrong result!", res, process);
-        System.out.println("Correct: " + process);
-    }
+	private void process(String ucs, String res) {
+		String process;
+		process = inputProcessor.process(ucs, false);
+		assertTrue("No Result!", process != null);
+		assertEquals("Wrong result!", res, process);
+		System.out.println("Correct: " + process);
+	}
 
-    @Override
-    protected void tearDown() throws Exception {
-        inputProcessor.close();
-        super.tearDown();
-    }
+	@Override
+	protected void tearDown() throws Exception {
+		inputProcessor.close();
+		super.tearDown();
+	}
 
 }

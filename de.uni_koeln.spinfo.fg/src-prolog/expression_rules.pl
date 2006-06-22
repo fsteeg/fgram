@@ -563,20 +563,20 @@ formTerm(_Kind,Det,Number,Noun,Role,Restr,Term,Alist,Alist3,Q,Qt,Ill) :-
    !,
    noun(Noun,SelRestr,[Plural,Gender],[[ArgRole,ArgSelRestr,Arg]],Sat),
    add_member([Termop,Noun,[ArgSelRestr,Plural,Gender],Modif],Alist,Alist1),
-/* askof(Kind,Noun,Ans),
-   of(Noun,Nlist,Relphrase,Alist1,Alist2,Ans), */
-/*   write('Is determiner of '),
-   printquote(Noun),
-   readDet(Det),
-   readNumber(Number),*/
+%/* askof(Kind,Noun,Ans),
+%   of(Noun,Nlist,Relphrase,Alist1,Alist2,Ans), */
+%/*   write('Is determiner of '),
+ %  printquote(Noun),
+ %  readDet(Det),
+ %  readNumber(Number),*/
    eq(Termop,[Det,Number]),
    check_det(Det,Role,Term,Q,Qt,Ill),
-/*   write('vor rel in form_term: Termop '),write(Termop),nl,
-   rel(Termop,Noun,[ArgSelRestr,Plural,Gender],Relclause,Alist2,Alist3),
-   ask_for_raising(Kind,Relclause,Reply),
-   raise_adj(Kind,Modif,Modif1,Relclause,Relclause1,Reply),*/
-  /* macht aus "Jo is a man, who talks." "Jo is a talking man." */
-   eq(Term,[P,Termop,Noun,[ArgSelRestr,Plural,Gender],Modif1,Relphrase,Relclause1]),
+/*%   write('vor rel in form_term: Termop '),write(Termop),nl,
+   %rel(Termop,Noun,[ArgSelRestr,Plural,Gender],Relclause,Alist2,Alist3),
+   %ask_for_raising(Kind,Relclause,Reply),
+   %raise_adj(Kind,Modif,Modif1,Relclause,Relclause1,Reply),*/
+  %/* macht aus "Jo is a man, who talks." "Jo is a talking man." */
+   eq(Term,[P,Termop,Noun,[ArgSelRestr,Plural,Gender],Restr,Relphrase,Relclause1]),
    write('This is the formed Term: '),write(Term),nl.
 
 formTerm(argument,wh,Role,Restr,Term,Nlist,Alist,Alist,Role,Term,
