@@ -52,7 +52,7 @@ term returns [Term ret = new Term()]
 	{Predicate pred = null;Term v = null;}
 	: 
 	// D1X:
-	( d:DEF | tense:TENSE )? (n:NUMBER)? /*c:INDEX*/ t:LAYER RESTRIKTOR
+	( d:DEF | tense:TENSE)? (n:NUMBER)? /*c:INDEX*/ t:LAYER RESTRIKTOR
 	( // man[N]
 	w0:WORD p0:WORD_CLASS (RESTRIKTOR)?
 	)? 
@@ -107,11 +107,15 @@ class UcsLexer extends Lexer;
 		: 'd' 		// definite
 		| 'i' 		// indefinite
 		;
-	//should actually be uppercase, but taken by sem roles...
+	//should actually be uppercase, but taken by sem roles... need states or such for that
 	TENSE
-		: "p"("ast" // past
+		: "p"
+		( "ast" 	// past
 		| "res"  	// present
-		| "erf"); 	// perfect
+		| "erf") 	// perfect
+		( "prog")?  // progressive TODO...
+		;
+
 	LAYER 
 		: 'f' 		// predicate
 		| 'x' 		// term

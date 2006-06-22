@@ -8,13 +8,13 @@ prop(clause, illocution, decl).
 prop(clause, type, mainclause).
 
 prop(x1, type, pred).
-prop(x1, tense, past).
+prop(x1, tense, perfective).
 prop(x1, perfect, false).
 prop(x1, progressive, false).
 prop(x1, mode, ind).
 prop(x1, voice, active).
 prop(x1, subnodes, [x2, x3]).
-prop(x1, lex, 'please').
+prop(x1, lex, 'love').
 prop(x1, nav, [V]).
 prop(x1, det, def).
 

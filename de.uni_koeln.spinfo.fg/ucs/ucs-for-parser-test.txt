@@ -1,5 +1,5 @@
 
-( e : /love/ [V] :
+( perf e : /love/ [V] :
 	
 	( x 	: /man/ 	[N] ) Ag Subj
 	( d m x : /axe/ 	[N] ) Go Obj

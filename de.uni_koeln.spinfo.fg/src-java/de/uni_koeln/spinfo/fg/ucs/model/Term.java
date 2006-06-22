@@ -21,6 +21,10 @@ public class Term {
 
     private List<Predicate> children;
 
+    private boolean perfect;
+
+    private boolean progressive;
+
     /**
      * Default constructor, instantiates the children
      */
@@ -34,11 +38,11 @@ public class Term {
      *            Like "D" for definite or "I" for indefinite (currently only
      *            uppercase)
      * @param tense
-     *            The tense, like "Past" or "Pres"
+     *            The tense, like "past" or "pres"
      * @param number
-     *            The number, like "1" or "M" (currently only uppercase)
+     *            The number, like "1" or "m"
      * @param layer
-     *            The layer, like "E" or "X" (currently only uppercase)
+     *            The layer, like "e" or "X"
      * @param wordForm
      *            The form, like "attack" or "city"
      * @param wordClass
@@ -50,6 +54,20 @@ public class Term {
         // get the mapped values or the default values
         this.def = det != null ? Config.getString(det.toLowerCase()) : Config
                 .getString("default_det");
+
+        // TODO
+        if (tense != null) {
+            if (tense.contains("prog")) {
+                this.progressive = true;
+                tense = tense.replaceAll("prog", "");
+            }
+            //TODO tense vs aspect...
+            if (tense.contains("perf")) {
+                this.perfect = true;
+                tense = "pres";
+            }
+        }
+
         this.tense = tense != null ? Config.getString(tense.toLowerCase())
                 : Config.getString("default_tense");
         this.num = number != null ? Config.getString(number.toLowerCase())
@@ -121,6 +139,14 @@ public class Term {
      */
     public String getWordClass() {
         return wordClass;
+    }
+
+    public boolean isPerfect() {
+        return perfect;
+    }
+
+    public boolean isProgressive() {
+        return progressive;
     }
 
 }

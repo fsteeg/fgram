@@ -59,9 +59,18 @@ public class InputProcessorTest extends TestCase {
                 "The man pleases the women");
         process("(past e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
                 "The man pleased the women");
-        //should this work?
-//        process("(Past E:please[V]:(X:man[N]:(E:eager[A]))(DMX:woman[N])GoObj)",
-//        "The eager man pleased the women");
+        process("(past prog e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
+                "The man was pleasing the women");
+        process("(pres prog e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
+                "The man is pleasing the women");
+        process("(perf prog e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
+                "The man has been pleasing the women");
+        process("(perf e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
+                "The man has pleased the women");
+        // TODO what about this? should this work?
+        // process("(Past
+        // E:please[V]:(X:man[N]:(E:eager[A]))(DMX:woman[N])GoObj)",
+        // "The eager man pleased the women");
     }
 
     private void process(String ucs, String res) {
@@ -69,7 +78,7 @@ public class InputProcessorTest extends TestCase {
         process = inputProcessor.process(ucs, false);
         assertTrue("No Result!", process != null);
         assertEquals("Wrong result!", res, process);
-        System.out.println(process);
+        System.out.println("Correct: " + process);
     }
 
     @Override
