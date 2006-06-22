@@ -61,7 +61,7 @@ public class InputProcessorTest extends TestCase {
                 "The man pleased the women");
         process("(past prog e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
                 "The man was pleasing the women");
-        process("(pres prog e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
+        process("(pres prog e : /please/ [V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
                 "The man is pleasing the women");
         process("(perf prog e:/please/[V]:(x:/man/[N])(dmx:/woman/[N])GoObj)",
                 "The man has been pleasing the women");
