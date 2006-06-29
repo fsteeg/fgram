@@ -54,7 +54,7 @@ public class InterpreterFrame extends JFrame implements ActionListener {
      */
     public InterpreterFrame(String swi) throws HeadlessException {
         super();
-        this.setSize(new Dimension(650, 200));
+        this.setSize(new Dimension(700, 200));
         this.setTitle("FGRAM");
         Container container = this.getContentPane();
         input = new JTextField();

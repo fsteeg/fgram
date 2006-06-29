@@ -8,9 +8,10 @@
 :- initialization ensure_loaded('lexicon.pl').
 :- initialization ensure_loaded('helpers.pl').
 :- initialization ensure_loaded('expression_rules.pl').
+%:- initialization ensure_loaded('test_ucs.pl').
 
 expression(Res) :-
-    consult('D:/cbendenWORKSPACE/de.uni_koeln.spinfo.fg/src-prolog/test_ucs.pl'),
+    consult('src-prolog/generated_ucs.pl'),
     %consult('generated_ucs.pl'), 
     retractall(expression_result(_)),
     node(StartNode, 0),
