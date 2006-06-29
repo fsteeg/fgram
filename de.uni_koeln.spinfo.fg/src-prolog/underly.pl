@@ -188,15 +188,20 @@ expression_rules(decl, mainclause,
 test12a:-
 expression_rules(decl, mainclause,
 [action,active, [ind,past,non_perfect,non_progressive,_],[give,[gave,given]],
-    [   [],
-        [_,[def,sing],farmer,[human,regular,masc],[],[],[]],
-        [_,[def,sing],axe,[instrument,regular,neuter],[],[],[]],
-        [ [recipient, [def, plural], woman, [human, women, fem], _G598, _G601, _G604] ],
-        []
+    [
+     % 1. Theme
+     [],
+     % 2. Subject
+     [_,[def,sing],farmer,[human,regular,masc],[],[],[]],
+     % 3. Object
+     [_,[def,sing],axe,[instrument,regular,neuter],[],[],[]],
+     % 4. Restargs
+     [[recipient, _G777, [_G741, [def, sing], woman, [human, women, fem], _G762, _G765, _G768]]],
+     % 5. Satellites
+     []
     ]
 ] /* End of PRED */,
 [wh], Nlist,Punctuation), writep(Punctuation),nl.
-
 
 test13:-
 expression_rules(decl, mainclause,

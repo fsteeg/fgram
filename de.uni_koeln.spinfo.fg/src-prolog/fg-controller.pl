@@ -10,9 +10,9 @@
 :- initialization ensure_loaded('expression_rules.pl').
 
 expression(Res) :-
-	consult('src-prolog/generated_ucs.pl'),
-	%consult('generated_ucs.pl'),
-	retractall(expression_result(_)),
+    consult('D:/cbendenWORKSPACE/de.uni_koeln.spinfo.fg/src-prolog/test_ucs.pl'),
+    %consult('generated_ucs.pl'), 
+    retractall(expression_result(_)),
     node(StartNode, 0),
     formStructureFromNode(StartNode, Predication),
     nl, nl, write('Predication: '), write(Predication), nl, nl,
@@ -46,7 +46,7 @@ formStructureFromNode(Node, Term) :-
     formTerm(noun, Det, Num, Lex, Role, Modifs, Term, Alist, Alist3, Q, Qt, Ill).
 
 % This predicate forms Predications. The list in the secaond argument
-%   represents the actual predication.
+% represents the actual predication.
 formStructureFromNode(Node, [Class, Voice, [Mode, Tense, Perfect, Progressive, Number], [Verb, VerbForms], ArgumentList] ) :-
     % Check for pred-hood
     readProp(Node, type, pred),
@@ -72,33 +72,41 @@ initializeSubnodes([ActNode|RestNodes], [Theme, Subject, Object, RestArgs, Satel
 initializeSubnode(ActNode, [Theme, _Subject, _Object, _RestArgs, _Satellites]) :-
     % Is ActNode the Theme of the sentence?
     readProp(ActNode, pragmatic, theme),
+    write('Initializing: Subnode theme.'), nl,
     % Then: Form the respective structure and store it in Theme.
     formStructureFromNode(ActNode, Theme).
 
 initializeSubnode(ActNode, [_Theme, Subject, _Object, _RestArgs, _Satellites]) :-
     % Is ActNode the (non-Theme) subject of the sentence?
     readProp(ActNode, relation, subject),
+    write('Initializing: Subnode subject.'), nl,
     % Then: Form the respective structure and store it in Subject.
     formStructureFromNode(ActNode, Subject).
 
 initializeSubnode(ActNode, [_Theme, _Subject, Object, _RestArgs, _Satellites]) :-
     % Is ActNode the (non-Theme) Object of the sentence?
     readProp(ActNode, relation, object),
+    write('Initializing: Subnode object.'), nl,
     % Then: Form the respective structure and store it in Object.
     formStructureFromNode(ActNode, Object).
 
-initializeSubnode(ActNode, [_Theme, _Subject, _Object, [RestArg], _Satellites]) :-
+% Restargs
+% This is the general form of a Restargs entry:
+% [[recipient, _G777, [_G741, [def, sing], woman, [human, women, fem], _G762, _G765, _G768]]]
+% It differs especially with respect to cases where a proper noun is
+% used:
+%   [[recipient,animate,[_,[[],sing],john,[human,sing,masc],[],[],[]]]]
+initializeSubnode(ActNode, [_Theme, _Subject, _Object, RestArg, _Satellites]) :-
     % Is ActNode the (non-Theme) Object of the sentence?
     readProp(ActNode, relation, restarg),
+    write('Initializing: Subnode restarg.'), nl,
     readProp(ActNode, role, Role), write('Role for restarg: '), write(role), nl,
     % Then: Form the respective structure and store it in RestArgs.
     formStructureFromNode(ActNode, RestArg1), nl, write('huhu: '), write(RestArg1), nl,
-    insertRole(Role, RestArg1, RestArg),
+    formRestargsExpression(Role, RestArg1, RestArg),
     nl, write('new restarg: '), write(RestArg) .
 
-insertRole(Role, [_, E2, E3, E4, E5, E6, E7], [Role, E2, E3, E4, E5, E6, E7]) :-
-	write('role: '),write(Role),nl,
-	write('hehe: '),write([Role, E2, E3, E4]).
+formRestargsExpression(Role, [_, E2, E3, E4, E5, E6, E7], [[Role, _, [_, E2, E3, E4, E5, E6, E7]]]).
 
 
 % readProp encapsulates the access to the prop-entries because
@@ -117,6 +125,12 @@ convertValue(progressive, false, non_progressive).
 convertValue(_, true, yes).
 convertValue(_, false, no).
 convertValue(_, Value, Value).
+
+
+
+
+
+
 
 
 

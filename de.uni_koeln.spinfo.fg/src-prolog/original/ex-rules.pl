@@ -19,7 +19,7 @@ expression_rules(decl,Clause,[Class,Voice,[Mod,Time,Perf,Prog,Num],[Verb,
    Vbforms],[Theme,Subj,Obj,Restargs,Satellites]],Nlist,Nlistout,'.') :-
    nl,write('Clause: '),write(Clause),
    nl,write('Theme: '), write(Theme),nl,write('Subj: '),write(Subj),nl,
-   write('Obj: '),write(Obj),write('Restargs: '), write(Restargs),nl,
+   write('Obj: '),write(Obj),nl, write('Restargs: '), write(Restargs),nl,
    write('Nlist:'),write(Nlist),lines(2),
    printtheme(Theme,Nlist,Nlist1,Clause,Cap,Cap1),
    printsubject(Subj,Nlist1,Nlist2,Clause,Cap1), ! ,
