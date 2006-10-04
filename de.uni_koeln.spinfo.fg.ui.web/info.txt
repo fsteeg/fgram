@@ -2,3 +2,4 @@ this is a quick and dirty sketch for a jsp fgram web ui
 
 - needs the fgram.jar projekt in WebContent/WEB-INF/lib
 - properties to prolog interpreter etc need to be set in the project before creating that jar
+- the prolog code is duplicated here
