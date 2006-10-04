@@ -46,7 +46,7 @@ public class UcsParserTest extends TestCase {
         System.out.println("UCS: " + s);
         UcsLexer lexer = new UcsLexer(new StringReader(s));
         assertTrue("Error while instantiating Lexer", lexer != null);
-        UcsParser parser = new UcsParser(lexer);
+        UcsParser parser = new UcsParser(new UcsLexer(new StringReader(s)));
         assertTrue("Error while instantiating parser", parser != null);
         Predicate p;
         try {

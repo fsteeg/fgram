@@ -1,8 +1,0 @@
-(d1x1:love[V]:
-	(d2x2:man[N])Pat 
-	(i3x3:woman[N])RecSubj 
-	(d1x1:
-		(d2x2:bus[N])Pat 
-		(i3x3:tree[N])RecSubj 
-	)
-)

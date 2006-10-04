@@ -26,7 +26,6 @@ public class InputProcessorTest extends TestCase {
         Log.init(Config.getString("log_folder"));
         inputProcessor = new InputProcessor(Config
                 .getString("prolog_application"));
-
     }
 
     /**
@@ -62,53 +61,91 @@ public class InputProcessorTest extends TestCase {
         }
     }
 
-    /**
-     * Tests two ucs given in code and checks correctness of the generated
-     * expressions
-     */
-    public void testProcessFromString() {
+    //
+    public void test1() {
         process("(e:'love'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
                 "The man loves the women");
-        process("(e:'please'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
-                "The man pleases the women");
-        process("(Impf e:'please'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
-                "The man pleased the women");
-        process(
-                "(Impf Prog e:'please'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
-                "The man was pleasing the women");
-        // TODO fails, prob in ex rules
-//        process(
-//                "(Impf Prog e:'please'[V]:(mx:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
-//                "The men were pleasing the women");
-        process(
-                "(Prog e : 'please' [V]:(x:'man'[N])AgSubj(imx:'woman'[N])GoObj)",
-                "The man is pleasing women");
-        process(
-                "(Impf Prog e:'please'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
-                "The man was pleasing the women");
-        process("(Pf e:'please'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
-                "The man has pleased the women");
-        process(
-                "(Impf Pf e:'love'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N]:'old'[A])GoObj)",
-                "The man had loved the old women");
-        // TODO what about this? should this work?
-        // process("(Past
-        // E:please[V]:(X:man[N]:(E:eager[A]))(DMX:woman[N])GoObj)",
-        // "The eager man pleased the women");
+
     }
 
+    //
+    public void test2() {
+        process("(e:'please'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
+                "The man pleases the women");
+
+    }
+
+    public void test3() {
+        process("(Past e:'please'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
+                "The man pleased the women");
+
+    }
+
+    public void test4() {
+        process(
+                "(Past prog e:'please'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
+                "The man was pleasing the women");
+
+    }
+
+    public void test5() {
+        process(
+                "(prog e : 'please' [V]:(x:'man'[N])AgSubj(imx:'woman'[N])GoObj)",
+                "The man is pleasing women");
+
+    }
+
+    public void test6() {
+        process(
+                "(Past prog e:'please'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
+                "The man was pleasing the women");
+
+    }
+
+    public void test7() {
+        process("(pf e:'please'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
+                "The man has pleased the women");
+
+    }
+
+    public void test8() {
+        process(
+                "(Past pf e:'love'[V]:(x:'man'[N])AgSubj(dmx:'woman'[N]:'old'[A])GoObj)",
+                "The man had loved the old women");
+    }
+
+    public void test9() {
+        // TODO fails, prob in ex rules
+         process(
+         "(Past prog e:'please'[V]:(mx:'man'[N])AgSubj(dmx:'woman'[N])GoObj)",
+         "The men were pleasing the women");
+    }
+
+    public void test10() {
+        // TODO what about this? should this work?
+        process(
+                "(Past e:'please'[V]:(x:'man'[N]:(e:'eager'[A]))(dmx:'woman'[N])GoObj)",
+                "The eager man pleased the women");
+
+    }
+
+    //
+    // /**
+    // * Tests two ucs given in code and checks correctness of the generated
+    // * expressions
+    // */
+    //
     private void process(String ucs, String res) {
         String process;
         try {
             process = inputProcessor.process(ucs, false);
+            System.out.println("Result: " + process);
             assertTrue("No Result!", process != null);
             assertEquals("Wrong result!", res, process);
-            System.out.println("Correct: " + process);
+           
         } catch (RecognitionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (TokenStreamException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

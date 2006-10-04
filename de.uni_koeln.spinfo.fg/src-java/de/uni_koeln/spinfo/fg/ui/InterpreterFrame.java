@@ -12,23 +12,27 @@ import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
-
 import de.uni_koeln.spinfo.fg.ucs.InputProcessor;
 import de.uni_koeln.spinfo.fg.util.Config;
 import de.uni_koeln.spinfo.fg.util.Log;
+import de.uni_koeln.spinfo.fg.util.Util;
 
 /**
  * A basic swing UI for evaluating a ucs
@@ -36,12 +40,15 @@ import de.uni_koeln.spinfo.fg.util.Log;
  * @author Fabian Steeg
  * 
  */
-public class InterpreterFrame extends JFrame implements ActionListener {
+public class InterpreterFrame extends JFrame implements ActionListener,
+        CaretListener, KeyListener {
     private static final long serialVersionUID = 1L;
 
-    private JTextField input;
+    private JComboBox input;
 
     private JTextArea output;
+
+    private JComboBox choices;
 
     private JCheckBox debug;
 
@@ -57,11 +64,12 @@ public class InterpreterFrame extends JFrame implements ActionListener {
         this.setSize(new Dimension(700, 200));
         this.setTitle("FGRAM");
         Container container = this.getContentPane();
-        input = new JTextField();
+        input = new JComboBox();
         input.setEditable(true);
         input.setSize(this.getWidth(), this.getHeight() / 2);
         input.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        input.setText(Config.getString("sample_ucs"));
+        fillSamples();
+        input.addKeyListener(this);
         output = new JTextArea();
         output.setEditable(false);
         output.setBorder(new LineBorder(Color.LIGHT_GRAY));
@@ -69,6 +77,17 @@ public class InterpreterFrame extends JFrame implements ActionListener {
         output.setLineWrap(true);
         JScrollPane scrollPane = new JScrollPane(output);
         debug = new JCheckBox("verbose");
+
+        // choices = new JComboBox();
+        // choices.setEditable(true);
+        // choices.setSize(this.getWidth(), this.getHeight() / 2);
+        // choices.setBorder(new LineBorder(Color.LIGHT_GRAY));
+
+        // JPanel bottom = new JPanel();
+        // bottom.setSize(this.getWidth(), this.getHeight() / 2);
+        // bottom.add(debug);
+        // bottom.add(choices);
+
         container.setLayout(new BorderLayout());
         container.add(input, BorderLayout.NORTH);
         container.add(debug, BorderLayout.SOUTH);
@@ -76,23 +95,57 @@ public class InterpreterFrame extends JFrame implements ActionListener {
         input.addActionListener(this);
         processor = new InputProcessor(swi);
         this.setVisible(true);
+        generate();
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                processor.close();
+                System.exit(0);
+            }
+        });
+    }
+
+    private void fillSamples() {
+        String s = Util.getText("ucs/samples");
+        for (String sample : s.split("%")) {
+            input.addItem(sample.trim());
+        }
+
+        // input.addItem(Config.getString("sample_ucs"));//Text(Config.getString("sample_ucs"));
+        // input.addItem("(e: 'love' [V]: (x: 'man' [N])AgSubj (x: 'woman'
+        // [N])GoObj)");
+        // input.addItem("(Pf e: 'kill' [V]: (d1x: 'farmer'[N])AgSubj (imx:
+        // 'duckling' [N]: 'soft' [A])GoObj)");
+    }
+
+    /**
+     * @see javax.swing.event.CaretListener#caretUpdate(javax.swing.event.CaretEvent)
+     */
+    public void caretUpdate(CaretEvent e) {
+        generate();
+
     }
 
     /**
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     public void actionPerformed(ActionEvent e) {
-        String inputUCS = input.getText();
+        generate();
+    }
+
+    private void generate() {
+        String inputUCS = (String) input.getSelectedItem();// input.getText();
         try {
             String process = processor.process(inputUCS, debug.isSelected());
             output.setText(process);
         } catch (RecognitionException e1) {
             output.setText(e1.toString());
-            input.setCaretPosition(Integer.parseInt(e1.toString().replaceAll("[^0-9]:", "").split(":")[1]));
+            // input.setCaretPosition(Integer.parseInt(e1.toString().replaceAll("[^0-9]:",
+            // "").split(":")[1]));
             e1.printStackTrace();
         } catch (TokenStreamException e1) {
             output.setText(e1.toString());
-            input.setCaretPosition(Integer.parseInt(e1.toString().replaceAll("[^0-9]:", "").split(":")[1]));
+            // input.setCaretPosition(Integer.parseInt(e1.toString().replaceAll("[^0-9]:",
+            // "").split(":")[1]));
             e1.printStackTrace();
         }
     }
@@ -114,5 +167,20 @@ public class InterpreterFrame extends JFrame implements ActionListener {
             }
         };
         interpreter.addWindowListener(wl);
+    }
+
+    public void keyPressed(KeyEvent arg0) {
+        generate();
+
+    }
+
+    public void keyReleased(KeyEvent arg0) {
+        generate();
+
+    }
+
+    public void keyTyped(KeyEvent arg0) {
+        generate();
+
     }
 }

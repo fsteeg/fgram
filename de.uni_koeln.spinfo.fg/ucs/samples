@@ -1,0 +1,3 @@
+(prog e: 'write' [V]: (d1x: 'man' [N])AgSubj (i1x: 'letter' [N])GoObj (d1x: 'woman' [N])Rec) %
+(e: 'love' [V]: (d1x: 'man' [N])AgSubj (i1x: 'woman' [N])GoObj) %
+(pf e: 'kill' [V]: (d1x: 'farmer'[N])AgSubj (imx: 'duckling' [N]: 'soft' [A])GoObj)

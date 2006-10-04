@@ -4,14 +4,14 @@
 % You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 
-:- initialization ensure_loaded('generated_ucs.pl').
+%:- initialization ensure_loaded('generated_ucs.pl').
 :- initialization ensure_loaded('lexicon.pl').
 :- initialization ensure_loaded('helpers.pl').
 :- initialization ensure_loaded('expression_rules.pl').
 %:- initialization ensure_loaded('test_ucs.pl').
 
 expression(Res) :-
-    consult('src-prolog/generated_ucs.pl'),
+    consult('/Users/fsteeg/Documents/eclipsestuff/workspaces/studium/de.uni_koeln.spinfo.fg/src-prolog/generated_ucs.pl'),
     %consult('generated_ucs.pl'), 
     retractall(expression_result(_)),
     node(StartNode, 0),

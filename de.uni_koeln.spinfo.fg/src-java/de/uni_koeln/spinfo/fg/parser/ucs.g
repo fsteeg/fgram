@@ -51,11 +51,10 @@ predicate returns [Predicate ret = new Predicate()]
 term returns [Term ret = new Term()]
 	{Predicate pred = null;Term v = null;}
 	: 
-	// D1X:
-	( d:DEF | tense:TENSE)? (aspect:ASPECT)? (n:NUMBER)? /*c:INDEX*/ t:LAYER RESTRIKTOR
-	( // man[N]
-	w0:WORD p0:WORD_CLASS (RESTRIKTOR)?
-	)? 
+	// "d1x:" or "Impf Pf e:"
+	((d:DEF (n:NUMBER)?) | ((tense:TENSE)? (aspect:ASPECT)?))? t:LAYER RESTRIKTOR
+	// man[N]
+	(w0:WORD p0:WORD_CLASS (RESTRIKTOR)? )?
 	//TODO multiple modifs
 	( // old[A]
 	w1:WORD p1:WORD_CLASS (RESTRIKTOR)?
@@ -113,19 +112,19 @@ class UcsLexer extends Lexer;
 		;
 	//should actually be uppercase, but taken by sem roles... need states or such for that
 	TENSE
-		: 
-		  "Impf" 
+		//: 
+		//:"Impf" 
 	//	| 
-		//"Ant"
+		//:"Ant"
 		//;
 		//"Past"
-		//: "P"
-		//( "ast" 	// past
-		//| "res" ) 	// present
+		: "P"
+		( "ast" 	// past
+		| "res" ) 	// present
 		;
 	
 	ASPECT
-		: "P"("f"|"rog");
+		: "p"("f"|"rog");
 
 	LAYER 
 		: 'f' 		// predicate

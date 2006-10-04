@@ -168,13 +168,14 @@ public class InputProcessor {
     private File loadFile() {
         File fileToConsult = new File(Config.getString("prolog_sources")
                 + File.separator + Config.getString("prolog_controller"));
+        String absolutePath = fileToConsult.getAbsolutePath();
         if (fileToConsult.exists()) {
             Log.logger
-                    .debug("Will consult: " + fileToConsult.getAbsolutePath());
+                    .debug("Will consult: " + absolutePath);
             return fileToConsult;
         } else {
             Log.logger.debug("File does not exist: "
-                    + fileToConsult.getAbsolutePath());
+                    + absolutePath);
             return null;
         }
 
