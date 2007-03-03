@@ -11,7 +11,7 @@
 %:- initialization ensure_loaded('test_ucs.pl').
 
 expression(Res) :-
-    consult('/Users/fsteeg/Documents/eclipsestuff/workspaces/studium/de.uni_koeln.spinfo.fg/src-prolog/generated_ucs.pl'),
+    consult('/Users/fsteeg/Documents/eclipsestuff/workspace/de.uni_koeln.spinfo.fg/src-prolog/generated_ucs.pl'),
     %consult('generated_ucs.pl'), 
     retractall(expression_result(_)),
     node(StartNode, 0),

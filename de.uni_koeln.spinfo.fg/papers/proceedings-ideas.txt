@@ -1,0 +1,7 @@
+- Take the original poster abstract as the basis
+- Update it from the poster, add content from there
+- Add an ANTLR grammar for the representational level
+- Some exemplary impl: e.g. input format checking for rl
+- Add technical info, e.g. the properties file (to shows the whole concept 
+of flexibilty of chosen symbols, in the grammar, in the prolog code, the 
+prop file being the mapping, all customizable etc.)
