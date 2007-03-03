@@ -1,7 +1,14 @@
+Publication "Advances in FDG", our title something like "Implementing an architecture for generating sentences from formal representations"... Implementing and testing is an important part of advancing... 'formal rigor'... "Implementing formal rigor"... "Functional Grammar Research Application Modules"...
+
+For the abstract (ca. 3 pages, deadline April, 1):
+
 - Take the original poster abstract as the basis
-- Update it from the poster, add content from there
+- Update it from the poster
 - Add an ANTLR grammar for the representational level
-- Some exemplary impl: e.g. input format checking for rl
-- Add technical info, e.g. the properties file (to shows the whole concept 
-of flexibilty of chosen symbols, in the grammar, in the prolog code, the 
-prop file being the mapping, all customizable etc.)
+- Some exemplary impl: e.g. input format checking for RL
+
+For the paper (max. 30 pages, deadline August, 1):
+
+- add content from poster: diagrams, code
+- Add technical info, e.g. the properties file (to shows the whole concept of flexibilty of chosen symbols, in the grammar, in the prolog code, the prop file being the mapping, all customizable etc.)
+- A way to implement FG and FDG mechanisms (via ANTLR), building on previous work and domain experience (Prolog), open to recent software development (Java, Web): Maintain a Prolog-based engine on a central server, give colleagues, students, etc. web access for experimentation
