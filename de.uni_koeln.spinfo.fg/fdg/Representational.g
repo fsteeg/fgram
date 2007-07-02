@@ -34,9 +34,9 @@ Samples from the FDG-Article:
 
 */
 propositional_content
-	:	'(' PI 'p' NUMBER ':' '[' 
+	:	'(' OPERATOR 'p' INDEX ':' '[' 
 				state_of_affair+ 
-		']' '(' 'p' NUMBER ')' (':' WORD '(' 'p' NUMBER ')')* ')' PHI?
+		']' '(' 'p' INDEX ')' (':' WORD '(' 'p' INDEX ')')* ')' FUNCTION?
 	;
 	
 /*
@@ -47,28 +47,28 @@ propositional_content
 (e1))Ag
 */
 state_of_affair 	
-	:	'(' PI 'e' NUMBER ':' '[' 
+	:	'(' OPERATOR 'e' INDEX ':' '[' 
 			(	property 
 			| 	individual 
 			|	location 
 			| 	time
 			)* 
-		']' '(' 'e' NUMBER ')' (':' WORD '(' 'e' NUMBER ')')* ')' PHI?
+		']' '(' 'e' INDEX ')' (':' WORD '(' 'e' INDEX ')')* ')' FUNCTION?
 	;
 		
 // e.g. (Past x1:boy(x1): young(x1))Ag
 individual
-	:	'(' PI 'x' NUMBER ':' WORD '(' 'x' NUMBER ')' (':' WORD '(' 'x' NUMBER ')')* ')' PHI?;
+	:	'(' OPERATOR 'x' INDEX ':' WORD '(' 'x' INDEX ')' (':' WORD '(' 'x' INDEX ')')* ')' FUNCTION?;
 property
-	:	'(' PI 'f' NUMBER ':' WORD '(' 'f' NUMBER ')' (':' WORD '(' 'f' NUMBER ')')* ')' PHI?;
+	:	'(' OPERATOR 'f' INDEX ':' WORD '(' 'f' INDEX ')' (':' WORD '(' 'f' INDEX ')')* ')' FUNCTION?;
 location
-	:	'(' PI 'l' NUMBER ':' WORD '(' 'l' NUMBER ')' (':' WORD '(' 'l' NUMBER ')')* ')' PHI?;
+	:	'(' OPERATOR 'l' INDEX ':' WORD '(' 'l' INDEX ')' (':' WORD '(' 'l' INDEX ')')* ')' FUNCTION?;
 time 	
-	: 	'(' PI 't' NUMBER ':' WORD '(' 't' NUMBER ')' (':' WORD '(' 't' NUMBER ')')* ')' PHI?;
+	: 	'(' OPERATOR 't' INDEX ':' WORD '(' 't' INDEX ')' (':' WORD '(' 't' INDEX ')')* ')' FUNCTION?;
 
 
-PHI	:	'Ag'|'Pat'|'Loc' ; // etc.
-PI	:	('A'..'Z')('a'..'z')+ ; // like 'Perf', 'Past' etc.
+FUNCTION	:	'Ag'|'Pat'|'Loc' ; // etc.
+OPERATOR	:	('A'..'Z')('a'..'z')+ ; // like 'Perf', 'Past' etc.
 WORD	:	('a'..'z')+ ;
-NUMBER	:	('0'..'9')+ ;
+INDEX	:	('0'..'9')+ ;
 WS	:	(' '|'\t'|'\n'|'\r')+ {skip(); } ;
