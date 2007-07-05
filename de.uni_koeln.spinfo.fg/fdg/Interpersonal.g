@@ -19,40 +19,41 @@ or
 ] (M1))
 
 */
-move	:	'(' 'M' NUMBER ':' '['
+move	:	'(' 'M' INDEX ':' '['
 				act+
-		']' '(' 'M' NUMBER ')' ( ':'WORD'(''M'NUMBER')' )* ')'
-		;
-		
-act	:	'(' 'A' NUMBER ':' '['
+		']' '(' 'M' INDEX ')' ( ':' WORD '(' 'M' INDEX ')' )* ')' ;
+			
+act	:	'(' 'A' INDEX ':' '['
 			(	speech_occurence
 			|	speaker
 			|	addressee
 			|	communicated_content
 			)*
-		']' '(' 'A' NUMBER ')' ( ':' WORD '(' 'A' NUMBER ')' )* ')'
-		;
-
+		']' '(' 'A' INDEX ')' ( ':' WORD '(' 'A' INDEX ')' )* ')' ;
+		
+		
 speech_occurence
-	:	'(' 'F' NUMBER ':' ILL '(' 'F' NUMBER ')' ( ':' WORD '(' 'F' NUMBER ')' )* ')' ;	 
+	:	'(' 'F' INDEX ':' ILL '(' 'F' INDEX ')' ( ':' WORD '(' 'F' INDEX ')' )* ')' ;
+		 
 speaker	
-	:	'(' 'P' NUMBER ':' WORD '(' 'P' NUMBER ')' ( ':' WORD '(' 'P' NUMBER ')' )* ')' ;
+	:	'(' 'P' INDEX ':' WORD '(' 'P' INDEX ')' ( ':' WORD '(' 'P' INDEX ')' )* ')' ;
+	
 addressee
-	:	'(' 'P' NUMBER ':' WORD '(' 'P' NUMBER ')' ( ':' WORD '(' 'P' NUMBER ')' )* ')' ;
+	:	'(' 'P' INDEX ':' WORD '(' 'P' INDEX ')' ( ':' WORD '(' 'P' INDEX ')' )* ')' ;
+	
 communicated_content
-	:	'(' 'C' NUMBER ':' '['
+	:	'(' 'C' INDEX ':' '['
 			( ascription
 			| reference
 			)*
-		']' '(' 'C' NUMBER ')' ( ':' WORD '(' 'C' NUMBER ')' )* ')'
-		;
-
+		']' '(' 'C' INDEX ')' ( ':' WORD '(' 'C' INDEX ')' )* ')' ;
+		
 ascription
-	:	'(' 'T' NUMBER '[' WORD ']' '(' 'T' NUMBER')'( ':' WORD '(' 'T' NUMBER ')' )* ')' ;
-reference
-	:	'(' 'R' NUMBER '[' WORD ']' '(' 'R' NUMBER')'( ':' WORD '(' 'R' NUMBER ')' )* ')' ;
+	:	'(' 'T' INDEX '[' WORD ']' '(' 'T' INDEX ')'( ':' WORD '(' 'T' INDEX ')' )* ')' ;
 	
-
+reference
+	:	'(' 'R' INDEX '[' WORD ']' '(' 'R' INDEX ')'( ':' WORD '(' 'R' INDEX ')' )* ')' ;
+	
 ILL	:	'DECL' | 'INTER' | 'IMPER' | 'PROH' | 'OPTAT' | 'HORT' | 'IMPR' | 'ADMO' | 'CAUT' | 'COMM';
 WORD	:	('a'..'z')+ ;
-NUMBER	:	('0'..'9')+ ;
+INDEX	:	('0'..'9')+ ;
