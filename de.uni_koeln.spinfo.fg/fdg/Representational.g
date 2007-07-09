@@ -2,34 +2,23 @@ grammar Representational;
 
 /* 
 (p1: 
-	[ 
-	(Past e1: 
-		[
-		(x1: im (x1)) Ag
-		(x2: naif(x2)) Inst
-		](e1))
-	(Perf e1:
-		[
-		(Past x1: boy(x1): young(x1))Ag
-		(Past f1: toy(f1))Ag
-		](e1))Ag 
-	](p1)
+    [ 
+        (Past e1: 
+            [
+                (f1:tek [
+                    		(x1:im(x1))Ag
+                    		(x2:naif(x2))Inst
+                	](f1)
+		)
+                (f2:kot [
+                    		(x1:im(x1))Ag
+                    		(x3:mi(x3))Pat
+                	](f2)
+		)
+            ](e1)
+        )
+    ](p1)
 )
-
-(p1: 
-	[ 
-	(Past e1: 
-		[
-		(f1:tek(
-			(x1:im(x1))Ag
-			(x2:naif(x2))Inst
-		)(f1))
-		(f2:kot(
-			(x1:im(x1))Ag
-			(x3:mi(x3))Pat
-		)(f2))
-	](e1))
-](p1))
 
 Samples from the FDG-Article:
 
@@ -62,18 +51,28 @@ propositional_content
 (e1))Ag
 */
 state_of_affair 	
-	:	'(' operator? 'e' INDEX ':' '[' 
+	:	'(' operator? 'e' INDEX ':' head '(' 'e' INDEX ')' (':' lemma '(' 'e' INDEX ')')* ')' function?
+	;
+
+head	:	'[' 
 			(	property 
 			| 	individual 
 			|	location 
 			| 	time
 			)* 
-		']' '(' 'e' INDEX ')' (':' lemma '(' 'e' INDEX ')')* ')' function?
+		']'
 	;
+
 		
 // e.g. (Past x1:boy(x1): young(x1))Ag
 individual
-	:	'(' operator? 'x' INDEX ':' lemma '(' 'x' INDEX ')' (':' lemma '(' 'x' INDEX ')')* ')' function?;
+	:	'(' operator? 'x' INDEX ':' lemma head? '(' 'x' INDEX ')' (':' lemma '(' 'x' INDEX ')')* ')' function?;	
+property
+	:	'(' operator? 'f' INDEX ':' lemma head? '(' 'f' INDEX ')' (':' lemma '(' 'f' INDEX ')')* ')' function?;
+location
+	:	'(' operator? 'l' INDEX ':' lemma head? '(' 'l' INDEX ')' (':' lemma '(' 'l' INDEX ')')* ')' function?;
+time 	
+	: 	'(' operator? 't' INDEX ':' lemma head? '(' 't' INDEX ')' (':' lemma '(' 't' INDEX ')')* ')' function?;
 
 function
 	:	FUNCTION
@@ -86,12 +85,7 @@ operator
 lemma	:	WORD
 	;
 
-property
-	:	'(' operator? 'f' INDEX ':' lemma ('('individual*')') '(' 'f' INDEX ')' (':' lemma '(' 'f' INDEX ')')* ')' function?;
-location
-	:	'(' operator? 'l' INDEX ':' lemma '(' 'l' INDEX ')' (':' lemma '(' 'l' INDEX ')')* ')' function?;
-time 	
-	: 	'(' operator? 't' INDEX ':' lemma '(' 't' INDEX ')' (':' lemma '(' 't' INDEX ')')* ')' function?;
+
 
 FUNCTION	:	'Ag'|'Pat'|'Loc'|'Inst' ; // etc.
 OPERATOR	:	('A'..'Z')('a'..'z')+ ; // like 'Perf', 'Past' etc.
