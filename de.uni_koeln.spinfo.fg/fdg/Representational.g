@@ -61,44 +61,34 @@ Samples from the FDG-Article:
 */
 
 /*
-state_of_affair 	
-	:	'(' operator? 'e' index ':' head '(' 'e' index ')' restriction* ')' function? ;
-	
-property
-	:	'(' operator? 'f' index ':' head '(' 'f' index ')' restriction* ')' function? ;
-	
-individual
-	:	'(' operator? 'x' index ':' head '(' 'x' index ')' restriction* ')' function? ;
-		
-location
-	:	'(' operator? 'l' index ':' head '(' 'l' index ')' restriction* ')' function? ;
-	
-time 	
-	: 	'(' operator? 't' index ':' head '(' 't' index ')' restriction* ')' function? ;
-	*/
-	
-	// e.g. (Past x1:boy(x1): young(x1))Ag
+it is possible to do it shorter, but for readability reasons we choose the longer version
 
-//Parser:
-
-propos 	: '(' OPER? 'p' INDEX ':' head '(' 'p' INDEX ')' restr* ')' FUNC? ;
-
+propositional_content 	: '(' OPER? 'p' INDEX ':' head '(' 'p' INDEX ')' restr* ')' FUNC? ;
 struct	: '(' OPER? VAR INDEX ':' head '(' VAR INDEX ')' restr* ')' FUNC? ;
-
 head	: LEMMA? ( '[' struct* ']' )? ;
-	
-restr	: ( ':' LEMMA '(' VAR INDEX ')' ) ;
+
+// e.g. (Past x1:boy(x1): young(x1))Ag
+
+*/
+
+// underlying structures on the different layers have a common structure:
+content : '(' OPER? 'p' INDEX ':' head '(' 'p' INDEX ')' restr* ')' FUNC? ;
+soa 	: '(' OPER? 'e' INDEX ':' head '(' 'e' INDEX ')' restr* ')' FUNC? ;	
+prop	: '(' OPER? 'f' INDEX ':' head '(' 'f' INDEX ')' restr* ')' FUNC? ;	
+indiv	: '(' OPER? 'x' INDEX ':' head '(' 'x' INDEX ')' restr* ')' FUNC? ;		
+loc	: '(' OPER? 'l' INDEX ':' head '(' 'l' INDEX ')' restr* ')' FUNC? ;	
+time 	: '(' OPER? 't' INDEX ':' head '(' 't' INDEX ')' restr* ')' FUNC? ;
+
+// ...can be nested in complex heads:
+head	: LEMMA? ( '[' ( soa | prop | indiv | loc | time )* ']' ) ? ;
+
+// ...and be further resticted:
+restr	: ':' head '(' VAR INDEX ')' ;
 
 //Lexer:
-
 VAR	: 'e' | 'f' | 'x' | 't' | 'l' ;
-
-FUNC	: 'Ag' | 'Pat' | 'Loc' | 'Inst' ; // etc.
-
-OPER	: 'Past' ; // etc.
-
-LEMMA		: 'a'..'z'+ ;
-
-INDEX		: '0'..'9'+ ;
-
-/*WHITESPACE	: ( ' ' | '\t' | '\n' | '\r' )+ { skip(); } ;*/
+FUNC	: 'Ag' | 'Pat' | 'Loc' | 'Inst' ;
+OPER	: 'Past' ; 
+LEMMA	: 'a'..'z'+ ;
+INDEX	: '0'..'9'+ ;
+WHITE	: ( ' ' | '\t' | '\n' | '\r' )+ { skip(); } ;
