@@ -20,6 +20,21 @@ grammar Representational;
     ](p1)
 )
 
+more compact way to typeset it
+		
+(p1:[ 
+    (Past e1:[
+        (f1:tek[
+            (x1:im(x1))Ag
+            (x2:naif(x2))Inst
+        ](f1))
+        (f2:kot[
+            (x1:im(x1))Ag
+            (x3:mi(x3))Pat
+        ](f2))
+    ](e1))
+](p1))
+
 Samples from the FDG-Article:
 
 (Past ei: 
@@ -37,12 +52,6 @@ Samples from the FDG-Article:
 'a boy'
 
 */
-propositional_content
-	:	'(' operator? 'p' INDEX ':' '[' 
-				state_of_affair+ 
-		']' '(' 'p' INDEX ')' (':' lemma '(' 'p' INDEX ')')* ')' function?
-	;
-	
 /*
 (Past e1 : 
 	[ 
@@ -50,45 +59,46 @@ propositional_content
 	] 
 (e1))Ag
 */
+
+/*
 state_of_affair 	
-	:	'(' operator? 'e' INDEX ':' head '(' 'e' INDEX ')' (':' lemma '(' 'e' INDEX ')')* ')' function?
-	;
-
-head	:	'[' 
-			(	property 
-			| 	individual 
-			|	location 
-			| 	time
-			)* 
-		']'
-	;
-
-		
-// e.g. (Past x1:boy(x1): young(x1))Ag
-individual
-	:	'(' operator? 'x' INDEX ':' lemma head? '(' 'x' INDEX ')' (':' lemma '(' 'x' INDEX ')')* ')' function?;	
+	:	'(' operator? 'e' index ':' head '(' 'e' index ')' restriction* ')' function? ;
+	
 property
-	:	'(' operator? 'f' INDEX ':' lemma head? '(' 'f' INDEX ')' (':' lemma '(' 'f' INDEX ')')* ')' function?;
+	:	'(' operator? 'f' index ':' head '(' 'f' index ')' restriction* ')' function? ;
+	
+individual
+	:	'(' operator? 'x' index ':' head '(' 'x' index ')' restriction* ')' function? ;
+		
 location
-	:	'(' operator? 'l' INDEX ':' lemma head? '(' 'l' INDEX ')' (':' lemma '(' 'l' INDEX ')')* ')' function?;
+	:	'(' operator? 'l' index ':' head '(' 'l' index ')' restriction* ')' function? ;
+	
 time 	
-	: 	'(' operator? 't' INDEX ':' lemma head? '(' 't' INDEX ')' (':' lemma '(' 't' INDEX ')')* ')' function?;
+	: 	'(' operator? 't' index ':' head '(' 't' index ')' restriction* ')' function? ;
+	*/
+	
+	// e.g. (Past x1:boy(x1): young(x1))Ag
 
-function
-	:	FUNCTION
-	;
+//Parser:
 
-operator
-	:	OPERATOR
-	;
+propos 	: '(' OPER? 'p' INDEX ':' head '(' 'p' INDEX ')' restr* ')' FUNC? ;
 
-lemma	:	WORD
-	;
+struct	: '(' OPER? VAR INDEX ':' head '(' VAR INDEX ')' restr* ')' FUNC? ;
 
+head	: LEMMA? ( '[' struct* ']' )? ;
+	
+restr	: ( ':' LEMMA '(' VAR INDEX ')' ) ;
 
+//Lexer:
 
-FUNCTION	:	'Ag'|'Pat'|'Loc'|'Inst' ; // etc.
-OPERATOR	:	('A'..'Z')('a'..'z')+ ; // like 'Perf', 'Past' etc.
-WORD	:	('a'..'z')+ ;
-INDEX	:	('0'..'9')+ ;
-WS	:	(' '|'\t'|'\n'|'\r')+ {skip(); } ;
+VAR	: 'e' | 'f' | 'x' | 't' | 'l' ;
+
+FUNC	: 'Ag' | 'Pat' | 'Loc' | 'Inst' ; // etc.
+
+OPER	: 'Past' ; // etc.
+
+LEMMA		: 'a'..'z'+ ;
+
+INDEX		: '0'..'9'+ ;
+
+/*WHITESPACE	: ( ' ' | '\t' | '\n' | '\r' )+ { skip(); } ;*/

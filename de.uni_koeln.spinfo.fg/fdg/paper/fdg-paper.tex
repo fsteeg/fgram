@@ -135,7 +135,19 @@ The \emph{processing module's} input format is a representation of the linguisti
      \begin{center}
   
 \begin{verbatim}
-(p1:     [         (Past e1:             [                (f1:tek                     [                            (x1:im(x1))Ag                            (x2:naif(x2))Inst                    ](f1)                )                (f2:kot                     [                            (x1:im(x1))Ag                            (x3:mi(x3))Pat                    ](f2)                )            ](e1)        )    ](p1))
+(p1:[ 
+    (Past e1:[
+        (f1:tek[
+            (x1:im(x1))Ag
+            (x2:naif(x2))Inst
+        ](f1))
+        (f2:kot[
+            (x1:im(x1))Ag
+            (x3:mi(x3))Pat
+        ](f2))
+    ](e1))
+](p1))
+
 \end{verbatim}
 
 %\end{examples}
@@ -176,30 +188,25 @@ act
 
 \begin{figure}
 
-\begin{verbatim}
-propositional_content
-  :  '(' OPERATOR 'p' INDEX ':' '[' 
-          state_of_affair+ 
-     ']' '(' 'p' INDEX ')' (':' WORD '(' 'p' INDEX ')')* ')' FUNCTION? ;
-
-state_of_affair 	
-  :  '(' OPERATOR 'e' INDEX ':' '[' 
-        ( property 
-        | individual 
-        | location 
-        | time
-     )* 
-']' '(' 'e' INDEX ')' (':' WORD '(' 'e' INDEX ')')* ')' FUNCTION?	;
+\begin{verbatim}propos  : '(' OPER? 'p' INDEX ':' head '(' 'p' INDEX ')' restr* ')' FUNC? ;struct  : '(' OPER? VAR INDEX ':' head '(' VAR INDEX ')' restr* ')' FUNC? ;head    : LEMMA? ( '[' struct* ']' )? ;restr   : ':' LEMMA '(' VAR INDEX ')' ;
 \end{verbatim}
 
-\captionabove{ANTLR grammar definitions for the Proposition and a State-of-Affair} \label{antlr-def2}
+\captionabove{ANTLR parser rules for RL structures} \label{antlr-rl-parser}
+\end{figure}
+
+\begin{figure}
+
+\begin{verbatim}VAR     : 'e' | 'f' | 'x' | 't' | 'l' ;FUNC    : 'Ag' | 'Pat' | 'Loc' | 'Inst' ; // etc.OPER    : 'Past' ; // etc.LEMMA   : 'a'..'z'+ ;INDEX   : '0'..'9'+ ;WHITE   : ( ' ' | '\t' | '\n' | '\r' )+ { skip(); } ;
+\end{verbatim}
+
+\captionabove{ANTLR lexer rules for RL structures} \label{antlr-rl-lexer}
 \end{figure}
 
 \begin{figure}
 \begin{center}
-\epsfig{file=soc-tree.pdf, width=15cm}
+\epsfig{file=../tree-part.pdf, width=15cm}
 \end{center}
-\captionabove{Parse tree for the state of affair '(Past e1: [(Past x1:boy(x1))Ag](e1))Ag'} \label{antlr-rl}
+\captionabove{Part of the parse tree for the expression in Fig. \ref{fdg-rl}} \label{antlr-tree}
 \end{figure}
 
 %The structure of formal representations in FG and FDG is very similar, see Fig. \ref{antlr-input} for an underlying structure in FG and Fig. \ref{fdg-il} and \ref{fdg-rl} for underlying structures in FDG (Jamaican Creole: \emph{Im tek naif kot mi}, 'He cut me with a knife'). All these structures are nested parenthesis expressions, which can also be represented as trees (cf. Fig. \ref{ucs} and \ref{uml-tree}). Since these structures can be described and processed with the same mechanisms, and underlying structures in FDG all conform to a common structure \citep[671]{HengeveldAndMackenzie2006}, support for FDG representations on the input level is easy to add by supplying ANTLR  grammar files for the different levels like the Interpersonal Level (IL) and the Representational Level (RL). Such an implementation is planned and will be described in our paper; this would effectively provide a validator for the formal structure of IL and RL representations. With grammar files for IL and RL implemented and having an internal representation of the input, alternative processing is possible too, like output of typeset representations of the structure with and without indentation, e.g. as given in Fig. \ref{fdg-il} and \ref{fdg-rl}.
