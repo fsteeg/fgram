@@ -1,0 +1,45 @@
+This is BibTeX, Version 0.99c (Web2C 7.5.4)
+The top-level auxiliary file: fdg-paper.aux
+The style file: LandPModMod.bst
+Database file #1: fsteeg.bib
+You've used 8 entries,
+            2791 wiz_defined-function locations,
+            651 strings with 5903 characters,
+and the built_in function-call counts, 4229 in all, are:
+= -- 304
+> -- 133
+< -- 11
++ -- 52
+- -- 38
+* -- 299
+:= -- 649
+add.period$ -- 8
+call.type$ -- 8
+change.case$ -- 44
+chr.to.int$ -- 8
+cite$ -- 8
+duplicate$ -- 359
+empty$ -- 379
+format.name$ -- 56
+if$ -- 854
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 67
+newline$ -- 29
+num.names$ -- 38
+pop$ -- 133
+preamble$ -- 1
+purify$ -- 42
+quote$ -- 0
+skip$ -- 147
+stack$ -- 0
+substring$ -- 182
+swap$ -- 185
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 60
+warning$ -- 0
+while$ -- 36
+width$ -- 0
+write$ -- 94

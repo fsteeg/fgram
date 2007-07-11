@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>System Architecture</TITLE>
+<META NAME="description" CONTENT="System Architecture">
+<META NAME="keywords" CONTENT="fdg-paper">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="fdg-paper.css">
+
+<LINK REL="next" HREF="node3.html">
+<LINK REL="previous" HREF="node1.html">
+<LINK REL="up" HREF="fdg-paper.html">
+<LINK REL="next" HREF="node3.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html40"
+  HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/local/share/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html38"
+  HREF="fdg-paper.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/local/share/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html32"
+  HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/local/share/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html41"
+  HREF="node3.html">Domain-Specific Languages</A>
+<B> Up:</B> <A NAME="tex2html39"
+  HREF="fdg-paper.html">Computational Representation of Underlying</A>
+<B> Previous:</B> <A NAME="tex2html33"
+  HREF="node1.html">Motivation and Overview</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00020000000000000000">
+System Architecture</A>
+</H1>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="sysflow"></A><A NAME="38"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 1:</STRONG>
+System Architecture</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER">
+
+
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The system consists of individual, exchangeable modules for creating an underlying structure, processing that input and generating a linguistic expression from the input (see Fig. <A HREF="#sysflow">1</A>). In the <I>input module</I> an underlying structure is created, edited and evaluated. Upon evaluation the input is sent to the <I>processing module</I>, which communicates with the <I>grammar module</I>. When the generation is done, the graphical user interface (GUI) displays either the result of the evaluation, namely the linguistic expression generated from the input, or an error message. The system architecture can be characterized as a Model-View-Controller (MVC) or three-tier architecture. Such a modular approach has two main advantages: First, modules can be exchanged; for instance the <I>input module</I> is implemented both as a console application (cf. Fig. <A HREF="#console">2</A>) and as a web-based user interface with the actual processing happening on a server (implemented using Java Server Pages on a Tomcat servlet container, cf. Fig. <A HREF="#web">3</A>). Second, by using a defined input format, our system can be combined with other NLP components and be reused in new contexts.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="console"></A><A NAME="52"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2:</STRONG>
+Screenshot of the console-based implementation</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ $\fbox{\includegraphics[width=15cm]{screen1.png}}$
+ -->
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="web"></A><A NAME="59"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3:</STRONG>
+Screenshot of the Web-based implementation</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ $\fbox{\includegraphics[width=15cm]{screen2.png}}$
+ -->
+<IMG
+ WIDTH="695" HEIGHT="1114" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="\fbox{\includegraphics[width=15cm]{screen2.png}}">
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html40"
+  HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/local/share/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html38"
+  HREF="fdg-paper.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/local/share/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html32"
+  HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/local/share/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html41"
+  HREF="node3.html">Domain-Specific Languages</A>
+<B> Up:</B> <A NAME="tex2html39"
+  HREF="fdg-paper.html">Computational Representation of Underlying</A>
+<B> Previous:</B> <A NAME="tex2html33"
+  HREF="node1.html">Motivation and Overview</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Fabian Steeg
+2007-07-10
+</ADDRESS>
+</BODY>
+</HTML>

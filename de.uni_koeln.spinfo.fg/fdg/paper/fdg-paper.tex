@@ -43,10 +43,11 @@
 
 \maketitle
 
-\begin{abstract}This paper describes a modular system for generating sentences from formal definitions of underlying structures and lexical entries represented using domain-specific languages. The system is implemented using Prolog, Java and the ANTLR parser generator. It could be used in the context of a larger NLP system and as a tool for formal notation in linguistic description in FG and FDG. \end{abstract}
-\begin{center}
-FDG ; NLP ; Parsing ; ANTLR ; DSL ; Java ; Prolog
+\begin{abstract}This paper describes a modular system for generating sentences from formal definitions of underlying structures using domain-specific languages. The system uses Java as a general-purpose language, Prolog for lexical entries and the ANTLR parser generator for the definition and processing of custom domain-specific languages based on Funtional Grammar and Functional Discourse Grammar notation. It could be used in the context of a larger natural language processing system and as a tool for consistent formal notation in linguistic description.
+\\\\\begin{center}
+Functional Grammar; Functional Discourse Grammar; Natural Language Processing; ANTLR; Domain-Specific Languages; Java; Prolog
 \end{center}
+\end{abstract}
 %}
 \doublespacing
 %\marginline{}
@@ -68,45 +69,43 @@ FDG ; NLP ; Parsing ; ANTLR ; DSL ; Java ; Prolog
 %\pagenumbering{arabic}
 \section{Motivation and Overview}
 %\footnote{Source code, documentation and infrastructure for collaborative work, like a forum and a Subversion repository, is available under \textless http://fgram.sourceforge.net/\textgreater .}
-This paper describes a modular implementation of a system for generating sentences, using domain-specific languages (DSL; see section \ref{dsls}) for the formal representation of underlying structures and lexical entries. The DSL implemented for underlying structures is based on representations in Functional Grammar (FG; \citealt{Dik1997a}). Starting with a fully specified underlying structure instead of selecting lexical entries as the first step corresponds to the shift of Functional Discourse Grammar (FDG) to a top-down organization \citep{HengeveldAndMackenzie2006}. Through its modular architecture the system can be extended for formal representations in FDG. The idea of creating a computational implementation of FG and FDG mechanisms, to ``build a model of the natural language user'' \citep[1]{Dik1997a} is central to these frameworks and a valuable evaluation tool for linguistic theories in general, since ``linguistics may learn from being applied'' \citep[4]{Bakker1994}. Therefore our implementation can be used to evaluate and improve FDG with respect to theoretical issues in language generation. FDG demands ``formal rigor'' \citep[668]{HengeveldAndMackenzie2006} and accordingly should be tested formally. Our implementation can therefore be used to evaluate and improve representational aspects of FDG. The expression rules and the lexicon are based on a revised and extended version of the implementation described in \cite{Samuelsdorff1989}. By means of its modular architecture the program could act as the language generation component in a larger natural language processing (NLP) system or as a tool for formal notation in linguistic description.
+This paper describes a modular implementation of a system for generating sentences, using domain-specific languages (DSL; see section \ref{dsls}) for the formal representation of underlying structures and lexical entries. The DSL implemented for underlying structures is based on representations in Functional Grammar (FG; \citealt{Dik1997a}). Starting with a fully specified underlying structure instead of selecting lexical entries as the first step corresponds to the shift of Functional Discourse Grammar (FDG) to a top-down organization \citep[668]{HengeveldAndMackenzie2006}. Through its modular architecture the system can be extended for formal representations in FDG. The idea of creating a computational implementation of FG and FDG mechanisms, to ``build a model of the natural language user'' \citep[1]{Dik1997a} is central to these frameworks and a valuable evaluation tool for linguistic theories in general, since ``linguistics may learn from being applied'' \citep[4]{Bakker1994}. FDG explicitly demands ``formal rigor'' \citep[668]{HengeveldAndMackenzie2006} and accordingly should be applied formally. By actually generating linguistic expressions from representations used in the theory, an implementation can be used to evaluate and improve the theory with respect to representational aspects and issues in language generation. The expression rules and the lexicon in our system are based on a revised and extended version of the implementation described in \cite{Samuelsdorff1989}. By means of its modular architecture the program could act as the language generation component in a larger natural language processing (NLP) system or as a tool for consistent formal notation in linguistic description.
 
 \section{System Architecture}
 
 \begin{figure}
 \begin{center}
-\epsfig{file=architecture.pdf, width=15cm}
+\includegraphics[width=15cm]{architecture.pdf}
 \end{center}
 \caption{System Architecture} \label{sysflow}
 \end{figure}
 
-%The system consists of three modules. The graphical user interface (GUI) assists the user in entering a valid formal represenation (\emph{input module}). When a valid formal representation is entered, the input is converted into a representation of the input in Prolog (\emph{processing module}). This representation is then used by the \emph{grammar module} to generate the linguistic expression. The result is passed back by the \emph{processing module} to the \emph{input module} to display the linguistic expression generated from the original input entered by the user. For an overview of the described interaction of the system modules see figure \ref{sysflow}. The system architecture can be characterized as a Model-View-Controller (MVC) or three-tier architecture. 
+%The system consists of three modules. The graphical user interface (GUI) assists the user in entering a valid formal represenation (\emph{input module}). When a valid formal representation is entered, the input is converted into a representation of the input in Prolog (\emph{processing module}). This representation is then used by the \emph{grammar module} to generate the linguistic expression. The result is passed back by the \emph{processing module} to the \emph{input module} to display the linguistic expression generated from the original input entered by the user. For an overview of the described interaction of the system modules see figure \ref{sysflow}. The system architecture can be characterized as a Model-View-Controller (MVC) or three-tier architecture.
 
-%\footnote{For calling Prolog from Java we use Interprolog (http://www.declarativa.com/interprolog/). The Prolog implementation we use is SWI-Prolog (http://www.swi-prolog.org/).}
-
-The system consists of individual, exchangeable modules for creating an underlying structure, processing that input and generating a linguistic expression from the input (see Fig. \ref{sysflow}). In the \emph{input module} an underlying structure is created, edited and evaluated. Upon evaluation the input is sent to the \emph{processing module}, which communicates with the \emph{grammar module}. When the generation is done, the graphical user interface (GUI) displays either the result of the evaluation, namely the linguistic expression generated from the input, or an error message. The system architecture can be characterized as a Model-View-Controller (MVC) or three-tier architecture. Such a modular approach has two main advantages: First, modules can be exchanged; for instance the \emph{input module} is implemented both as a console application (cf. Fig. \ref{console}) and as a web-based user interface with the actual processing happening on a server (implemented using Java Server Pages on a Tomcat servlet container, cf. Fig. \ref{web}). Second, by using a defined input format, our system can be combined with other NLP components and be reused in new contexts.
+The system consists of individual, exchangeable modules for creating an underlying structure, processing that input and generating a linguistic expression from the input (cf. Fig. \ref{sysflow}). In the \emph{input module} an underlying structure is created, edited and evaluated. Upon evaluation the input is sent to the \emph{processing module}, which communicates with the \emph{grammar module}. When the generation is done, the user interface displays either the result of the evaluation, namely the linguistic expression generated from the input, or an error message. The system architecture can be characterized as a Model-View-Controller (MVC) or three-tier architecture. Such a modular approach has two main advantages: First, modules can be exchanged; for instance the \emph{input module} is implemented both as a console application (cf. Fig. \ref{console}) and as a web-based user interface with the actual processing happening on a server (implemented using Java Server Pages on a Tomcat servlet container, cf. Fig. \ref{web}). Second, by using a defined input format, our system can be combined with other NLP components and be reused in new contexts.
 
 \begin{figure}
 \begin{center}
-\fbox{\epsfig{file=screen1.png, width=15cm}}
+\fbox{\includegraphics[width=15cm]{screen1.png}}
 \end{center}
 \caption{Screenshot of the console-based implementation} \label{console}
 \end{figure}
 
 \begin{figure}
 \begin{center}
-\fbox{\epsfig{file=screen2.png, width=15cm}}
+\fbox{\includegraphics[width=15cm]{screen2.png}}
 \end{center}
-\caption{Screenshot of the Web-based implementation} \label{web}
+\caption{Screenshot of the web-based implementation} \label{web}
 \end{figure}
 
 \section{Domain-Specific Languages}\label{dsls}
 
 %\footnote{An example of combining Java and Prolog in a similar fashion is described in \cite{Macks2002}.}
-The usage of languages which are tailored for a specific domain (domain-specific languages, DSL) has a long tradition in computing and has been acknowledged as a best practice in recent years (cf. \citealt[Ch. 12]{HuntAndThomas1999} and \citealt{Parr2007}). Our system uses Java as a general-purpose language, Prolog as a DSL for lexical entries and expression rules, and a self-defined DSL for describing underlying structures, implemented using ANTLR, a tool for defining and processing domain-specific languages \citep{Parr2007}. While e.g. in the domain of banking a DSL might describe credit rules, a linguist working with a model like FDG uses a DSL for linguistic description, e.g. for formal notation of underlying structures. With ANTLR, the form of the DSL is defined in EBNF notation (cf. Fig. \ref{antlr-rl-parser}), based on which a Java parser that can process the DSL is automatically generated, allowing for interaction with the abundant supply of libraries available in Java (cf. Fig. \ref{parser-overview}).
+The usage of languages which are tailored for a specific domain (domain-specific languages, DSL) has a long tradition in computing (e.g. for configuration files, like in the \emph{sendmail} program, cf. \citealt[Ch. 12]{HuntAndThomas1999}) and has been acknowledged as a best practice in recent years (\citealt[Ch. 12]{HuntAndThomas1999} and \citealt{Parr2007}). Our system uses Java as a general-purpose language, Prolog as a DSL for lexical entries and expression rules, and a custom DSL for describing underlying structures, implemented using ANTLR, a tool for defining and processing domain-specific languages \citep{Parr2007}. While e.g. in the domain of banking a DSL might describe credit rules, a linguist working with a model like FDG uses a DSL for linguistic description, e.g. for formal notation of underlying structures. With ANTLR, the form of the DSL is defined using a notation that resembles the \emph{Extended Backus-Naur Form} (EBNF, cf. Fig. \ref{antlr-rl-parser}), based on which a Java parser that can process the DSL is automatically generated, allowing for interaction with the abundant supply of libraries available in Java (cf. Fig. \ref{parser-overview} for an overview of the definition and the processing of the custom DSL).
 
 \begin{figure}
 \begin{center}
-\mbox{\epsfig{file=parser.pdf, width=15cm}}
+\mbox{\includegraphics[width=15cm]{parser.pdf}}
 \end{center}
 \caption{Parser overview} \label{parser-overview}
 \end{figure}
@@ -137,22 +136,28 @@ The usage of languages which are tailored for a specific domain (domain-specific
     (d1x:'john'[N])0
 )
 \end{verbatim}
-\caption{A nested underlying structure based on \cite{Dik1997a}, which is parsable by the generated ANTLRv2 parser (represents \emph{John is the man who was given the book by Mary})}\label{antlr-input}
+\caption{A nested underlying structure based on \cite{Dik1997a}, which is parsable by the generated ANTLR v2 parser (represents \emph{John is the man who was given the book by Mary})}\label{antlr-input}
 \end{center}
 \end{figure}
 
-The \emph{processing module's} input format is a representation of the linguistic expression to be generated; its form is based on the representation of underlying structures given in \cite{Dik1997a}. The \emph{processing module} parses the input entered by the user (or potentially coming from a different source) and creates an internal representation (see Fig. \ref{uml-tree}) which is then converted into the output format of the \emph{processing module}, a Prolog representation of the input, which is used by the \emph{grammar module}.
+The \emph{processing module's} input format is a representation of the linguistic expression to be generated (cf. Fig. \ref{antlr-input}); its form is based on the representation of underlying structures given in \cite{Dik1997a}. The \emph{processing module} parses the input entered by the user and creates an internal representation (cf. Fig. \ref{uml-tree}) which is then converted into the output format of the \emph{processing module}, a Prolog representation of the input, which is used by the \emph{grammar module} (cf. Ch. \ref{lexical}).
 
 \begin{figure}
 \begin{center}
-\mbox{\epsfig{file=objects.pdf, height=6cm}}
+\mbox{\includegraphics[height=5.5cm]{objects.pdf}}
 \caption{Internal representation of an underlying structure: a tree of Java objects (in UML notation)}
 %for \emph{The old farmers had given soft ducklings to the young women}
 \label{uml-tree}
 \end{center}
 \end{figure}
     
-Figures \ref{antlr-input} and \ref{fdg-rl} show the structural similarity of underlying structures in FG and FDG; both representations are nested parentheses, which can also be represented as trees (cf. Fig. \ref{uml-tree}). Since these representations can be described and processed with the same mechanisms, and representations on all levels of FDG have a common scheme \citep[671]{HengeveldAndMackenzie2006}, support for FDG representations is easy to add by supplying ANTLR definitions for representations on the individual levels in FDG, like the Interpersonal Level (IL) and the Representational Level (RL, cf. Fig. \ref{fdg-rl}, \ref{antlr-rl-parser} and \ref{antlr-tree}). Such an ANTLR grammar definition alone provides a validator for the formal structure of IL and RL representations. With grammar files for the IL and the RL implemented and having an internal representation of the input, alternative processing is possible too, e.g. output of typeset representations of the underlying structures with or without indentation.
+Figures \ref{antlr-input} and \ref{fdg-rl} show the structural similarity of underlying structures in FG and FDG; both representations are nested parentheses, which can also be represented as trees (cf. Fig. \ref{uml-tree}). Since these representations can be described and processed with the same mechanisms, and representations on all levels of FDG have a common scheme \citep[671]{HengeveldAndMackenzie2006}, support for FDG representations is easy to add by supplying ANTLR definitions for representations on the individual levels in FDG, like the Interpersonal Level (IL) and the Representational Level (RL). Fig. \ref{antlr-rl-parser} shows parser rules for structures on the RL, from which a parser is generated that can parse expressions as the structure in Fig. \ref{fdg-rl}, creating a representation which can be used for further processing (cf. Fig. \ref{antlr-tree}). Such an ANTLR grammar definition provides a validator for the formal structure of IL and RL representations. Having an internal representation of the input, alternative processing to the creation of the corresponding linguistic expression is imaginable, like output of typeset representations of underlying structures in different formats, e.g. with or without indentation.
+
+\begin{figure}
+\begin{verbatim}pcontent   : '(' OPERATOR? 'p' X ( ':' head '(' 'p' X ')' )* ')' FUNCTION? ;soaffairs  : '(' OPERATOR? 'e' X ( ':' head '(' 'e' X ')' )* ')' FUNCTION? ;    property   : '(' OPERATOR? 'f' X ( ':' head '(' 'f' X ')' )* ')' FUNCTION? ;    individual : '(' OPERATOR? 'x' X ( ':' head '(' 'x' X ')' )* ')' FUNCTION? ;        location   : '(' OPERATOR? 'l' X ( ':' head '(' 'l' X ')' )* ')' FUNCTION? ;    time       : '(' OPERATOR? 't' X ( ':' head '(' 't' X ')' )* ')' FUNCTION? ;head       : LEMMA? ( '['            ( soaffairs            | property            | individual            | location            | time )* ']' ) ? ;
+\end{verbatim}
+\caption{ANTLR v3 parser rules for structures on the RL} \label{antlr-rl-parser}
+\end{figure}
 
 \begin{figure}
 \begin{center}
@@ -170,21 +175,15 @@ Figures \ref{antlr-input} and \ref{fdg-rl} show the structural similarity of und
     ](e1))
 ](p1))
 \end{verbatim}
-\caption{Underlying structure on the RL in FDG (Jamaican Creole: \emph{Im tek naif kot mi}, 'He cut me with a knife'), which is parsable by the parser generated from the rules in Fig. \ref{antlr-rl-parser}}\label{fdg-rl}  
+\caption{Underlying structure of a serial verb construction in Jamaican Creole (\emph{Im tek naif kot mi}, 'He cut me with a knife', \citealt[290]{Patrick2004}) on the RL in FDG, which is parsable by the parser generated from the rules in Fig. \ref{antlr-rl-parser}}\label{fdg-rl}
 \end{center}
-\end{figure}
-
-\begin{figure}
-\begin{verbatim}content    : '(' OPERATOR? 'p' X ( ':' head '(' 'p' X ')' )* ')' FUNCTION? ;soa        : '(' OPERATOR? 'e' X ( ':' head '(' 'e' X ')' )* ')' FUNCTION? ;    property   : '(' OPERATOR? 'f' X ( ':' head '(' 'f' X ')' )* ')' FUNCTION? ;    individual : '(' OPERATOR? 'x' X ( ':' head '(' 'x' X ')' )* ')' FUNCTION? ;        location   : '(' OPERATOR? 'l' X ( ':' head '(' 'l' X ')' )* ')' FUNCTION? ;    time       : '(' OPERATOR? 't' X ( ':' head '(' 't' X ')' )* ')' FUNCTION? ;head       : LEMMA? ( '['            ( soa            | property            | individual            | location            | time )* ']' ) ? ;
-\end{verbatim}
-\caption{ANTLR v3 parser rules for structures on the RL} \label{antlr-rl-parser}
 \end{figure}
 
 \begin{figure}
 \begin{center}
-\epsfig{file=../tree-part.pdf, width=15cm}
+\includegraphics[width=13.5cm]{../tree-part.pdf}
 \end{center}
-\caption{Part of the parse tree for the expression in Fig. \ref{fdg-rl}} \label{antlr-tree}
+\caption{Part of the parse tree the generated parser produces for the expression in Fig. \ref{fdg-rl}} \label{antlr-tree}
 \end{figure}
 
 %The structure of formal representations in FG and FDG is very similar, see Fig. \ref{antlr-input} for an underlying structure in FG and Fig. \ref{fdg-il} and \ref{fdg-rl} for underlying structures in FDG (Jamaican Creole: \emph{Im tek naif kot mi}, 'He cut me with a knife'). All these structures are nested parenthesis expressions, which can also be represented as trees (cf. Fig. \ref{ucs} and \ref{uml-tree}). Since these structures can be described and processed with the same mechanisms, and underlying structures in FDG all conform to a common structure \citep[671]{HengeveldAndMackenzie2006}, support for FDG representations on the input level is easy to add by supplying ANTLR  grammar files for the different levels like the Interpersonal Level (IL) and the Representational Level (RL). Such an implementation is planned and will be described in our paper; this would effectively provide a validator for the formal structure of IL and RL representations. With grammar files for IL and RL implemented and having an internal representation of the input, alternative processing is possible too, like output of typeset representations of the structure with and without indentation, e.g. as given in Fig. \ref{fdg-il} and \ref{fdg-rl}.
@@ -223,9 +222,9 @@ Figures \ref{antlr-input} and \ref{fdg-rl} show the structural similarity of und
 %  \end{minipage}
 %\end{figure}
 
-\section{Lexical Entries}
+\section{Lexical Entries}\label{lexical}
 
-In the \emph{grammar module} the Prolog representation of the input generated by the \emph{processing module} is used to generate a linguistic expression. Prolog was developed as a programming language for linguists and therefore offers convenient notation and processing mechanisms, e.g. lexical entries can be stored directly as Prolog facts (see Fig. \ref{prolog-2}). Prolog also has a particular strong standing as an implementation language for FG (e.g. \citealt{Samuelsdorff1989,Dik1992}). By restricting the usage of Prolog to lexical entries and expression rules and combining it with other languages, instead of using it as a general-purpose programming language for the entire program, we use Prolog as a DSL in its original domain. The expression rules and the lexicon are based on a revised and extended version of the implementation described in \cite{Samuelsdorff1989}. To make the implementation work as a module in the described system, the user dialog of the  original version (in which the underlying structure is built step by step) was replaced by an immediate processing of the entire input representing the linguistic expression to be generated. The user dialog is therefore replaced by the formal representation, which is created in the \emph{input module} and converted into a Prolog representation by the \emph{processing module}. This resembles the shift to a top-down organization in FDG \citep{HengeveldAndMackenzie2006}, where the conceptualization is the first step, not the selection of lexical elements, as it was in FG and in our original implementation.
+In the \emph{grammar module} the Prolog representation of the input generated by the \emph{processing module} is used to generate a linguistic expression. Prolog was developed as a programming language for linguists and therefore offers convenient notation and processing mechanisms, e.g. lexical entries can be stored directly as Prolog facts (cf. Fig. \ref{prolog-2}). Prolog also has a particular strong standing as an implementation language for FG (e.g. \citealt{Samuelsdorff1989,Dik1992}). By restricting the usage of Prolog to lexical entries and expression rules and combining\footnote{For calling Prolog from Java we use Interprolog (http://www.declarativa.com/interprolog/). The Prolog implementation we use is SWI-Prolog (http://www.swi-prolog.org/).} it with other languages, instead of using it as a general-purpose programming language for the entire program, we use Prolog as a DSL in its original domain. The expression rules and the lexicon are based on a revised and extended version of the implementation described in \cite{Samuelsdorff1989}. To make the implementation work as a module in the described system, the user dialog of the  original version (in which the underlying structure is built step by step) was replaced by an immediate processing of the entire input representing the linguistic expression to be generated. The user dialog is therefore replaced by the formal representation, which is created in the \emph{input module} and converted into a Prolog representation by the \emph{processing module}. This resembles the shift to a top-down organization \citep[668]{HengeveldAndMackenzie2006} in FDG, where the conceptualization is the first step, not the selection of lexical elements, as it was in FG and in our original implementation.
 
 \begin{figure}
 \begin{center}
@@ -318,12 +317,13 @@ verb(
 
 \section{Conclusion}
 \normalsize
-We described a modular implementation of a language generation system, representing underlying structures and lexical entries using domain-specific languages. The system makes use of an input format based on \cite{Dik1997a} and consists of modules implemented in Java, Prolog and ANTLR, making it easy to extend for FDG representations. As all structures used in FDG as well as the lexical entries as Prolog facts have a common tree structure, a unified implementation using ANTLR to define and process all these structures is feasible and would allow further processing in all the target languages supported by ANTLR (i.e. Java, C, C++, C\#, Python and Ruby). The system can be used to evaluate and improve FDG with respect to theoretical and representational issues; by means of its modular architecture it could act as the language generation component in a larger NLP system or as a tool for formal notation in linguistic description. The implementation and infrastructure for collaborative development is available at http://fgram.sourceforge.net.
+We described a modular implementation of a language generation system, representing underlying structures and lexical entries using domain-specific languages. The system makes use of an input format based on \cite{Dik1997a} and consists of modules implemented in Java, Prolog and ANTLR, making it easy to extend for FDG representations. As all structures used in FDG as well as the lexical entries (which are Prolog facts in our system) have a common tree structure, a unified implementation using ANTLR to define and process all these structures in the same manner as described for RL representations in  Fig.  \ref{antlr-rl-parser}, \ref{fdg-rl} and \ref{antlr-tree} is feasible and would allow further processing in all the target languages supported by ANTLR (currently Java, C, C++, C\#, Objective-C, Python and Ruby). The system can be used to evaluate and improve FDG with respect to theoretical and representational issues; by means of its modular architecture it could act as the language generation component in a larger NLP system and as a tool for consistent formal notation in linguistic description. The described implementation and infrastructure for collaborative development are available at http://fgram.sourceforge.net.
 
 %\newpage
 %\thispagestyle{empty}
 %\enlargethispage{1cm}
-\onehalfspacing
+\newpage
+%\onehalfspacing
 \bibliography{fsteeg}
 
 %\newpage

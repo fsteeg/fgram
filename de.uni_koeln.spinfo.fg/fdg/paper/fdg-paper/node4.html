@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Underlying Structures</TITLE>
+<META NAME="description" CONTENT="Underlying Structures">
+<META NAME="keywords" CONTENT="fdg-paper">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="fdg-paper.css">
+
+<LINK REL="next" HREF="node5.html">
+<LINK REL="previous" HREF="node3.html">
+<LINK REL="up" HREF="fdg-paper.html">
+<LINK REL="next" HREF="node5.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html60"
+  HREF="node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/local/share/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html58"
+  HREF="fdg-paper.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/local/share/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html52"
+  HREF="node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/local/share/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html61"
+  HREF="node5.html">Lexical Entries</A>
+<B> Up:</B> <A NAME="tex2html59"
+  HREF="fdg-paper.html">Computational Representation of Underlying</A>
+<B> Previous:</B> <A NAME="tex2html53"
+  HREF="node3.html">Domain-Specific Languages</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00040000000000000000">
+Underlying Structures</A>
+</H1>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="antlr-input"></A><A NAME="154"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 5:</STRONG>
+A nested underlying structure based on <A
+ HREF="node7.html#Dik1997a">Dik (1997)</A>, which is parsable by the generated ANTLRv2 parser (represents <I>John is the man who was given the book by Mary</I>)</CAPTION>
+<TR><TD><IMG
+ WIDTH="695" HEIGHT="1114" BORDER="0"
+ SRC="img5.png"
+ ALT="\begin{figure}\begin{center}
+\begin{verbatim}(Past e:
+(d1x:'man'[N]:
+(Past P...
+...man'[N])RecSubj
+)
+)
+(d1x:'john'[N])0
+)\end{verbatim}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The <I>processing module's</I> input format is a representation of the linguistic expression to be generated; its form is based on the representation of underlying structures given in <A
+ HREF="node7.html#Dik1997a">Dik (1997)</A>. The <I>processing module</I> parses the input entered by the user (or potentially coming from a different source) and creates an internal representation (see Fig. <A HREF="#uml-tree">6</A>) which is then converted into the output format of the <I>processing module</I>, a Prolog representation of the input, which is used by the <I>grammar module</I>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="uml-tree"></A><A NAME="95"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 6:</STRONG>
+Internal representation of an underlying structure: a tree of Java objects (in UML notation)</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER">
+
+
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Figures <A HREF="#antlr-input">5</A> and <A HREF="#fdg-rl">7</A> show the structural similarity of underlying structures in FG and FDG; both representations are nested parentheses, which can also be represented as trees (cf. Fig. <A HREF="#uml-tree">6</A>). Since these representations can be described and processed with the same mechanisms, and representations on all levels of FDG have a common scheme (<A
+ HREF="node7.html#HengeveldAndMackenzie2006">Hengeveld &amp; Mackenzie, 2006</A>,  671), support for FDG representations is easy to add by supplying ANTLR definitions for representations on the individual levels in FDG, like the Interpersonal Level (IL) and the Representational Level (RL, cf. Fig. <A HREF="#fdg-rl">7</A>, <A HREF="#antlr-rl-parser">8</A> and <A HREF="#antlr-tree">9</A>). Such an ANTLR grammar definition alone provides a validator for the formal structure of IL and RL representations. With grammar files for the IL and the RL implemented and having an internal representation of the input, alternative processing is possible too, e.g. output of typeset representations of the underlying structures with or without indentation.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fdg-rl"></A><A NAME="156"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 7:</STRONG>
+Underlying structure on the RL in FDG (Jamaican Creole: <I>Im tek naif kot mi</I>, 'He cut me with a knife'), which is parsable by the parser generated from the rules in Fig. <A HREF="#antlr-rl-parser">8</A></CAPTION>
+<TR><TD><IMG
+ WIDTH="315" HEIGHT="184" BORDER="0"
+ SRC="img7.png"
+ ALT="\begin{figure}\begin{center}
+\begin{verbatim}(p1:[
+(Past e1:[
+(f1:tek[
+(x1...
+...Ag
+(x3:mi(x3))Pat
+](f2))
+](e1))
+](p1))\end{verbatim}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="antlr-rl-parser"></A><A NAME="118"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 8:</STRONG>
+ANTLR v3 parser rules for structures on the RL</CAPTION>
+<TR><TD></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="antlr-tree"></A><A NAME="157"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 9:</STRONG>
+Part of the parse tree for the expression in Fig. <A HREF="#fdg-rl">7</A></CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="241" HEIGHT="225" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="\includegraphics[width=15cm]{../tree-part.pdf}">
+
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html60"
+  HREF="node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/local/share/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html58"
+  HREF="fdg-paper.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/local/share/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html52"
+  HREF="node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/local/share/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html61"
+  HREF="node5.html">Lexical Entries</A>
+<B> Up:</B> <A NAME="tex2html59"
+  HREF="fdg-paper.html">Computational Representation of Underlying</A>
+<B> Previous:</B> <A NAME="tex2html53"
+  HREF="node3.html">Domain-Specific Languages</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Fabian Steeg
+2007-07-10
+</ADDRESS>
+</BODY>
+</HTML>

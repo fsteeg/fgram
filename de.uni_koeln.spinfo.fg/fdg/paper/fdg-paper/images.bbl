@@ -1,4 +1,4 @@
-\begin{thebibliography}{8}
+\begin{thebibliography}{7}
 \newcommand{\enquote}[1]{`#1'}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
@@ -28,13 +28,6 @@
 \bibitem[{Parr(2007)}]{Parr2007}
 \textsc{Parr, T.}: 2007, \emph{The Definitive ANTLR Reference: Building
   Domain-Specific Languages}, The Pragmatic Bookshelf, Raleigh.
-
-\bibitem[{Patrick(2004)}]{Patrick2004}
-\textsc{Patrick, P.}: 2004, \enquote{Jamaican Creole: Morphology and syntax.},
-  in B.~Kortmann, E.~W. Schneider, C.~Upton, R.~Mesthrie \& K.~Burridge (eds.),
-  \emph{A Handbook of Varieties of English. Vol 2: Morphology and Syntax},
-  Topics in English Linguistics, Mouton de Gruyter, Berlin \& New York, pp.
-  407--438.
 
 \bibitem[{Samuelsdorff(1989)}]{Samuelsdorff1989}
 \textsc{Samuelsdorff, P.~O.}: 1989, \enquote{Simulation of a Functional Grammar
