@@ -72,23 +72,25 @@ head	: LEMMA? ( '[' struct* ']' )? ;
 */
 
 // underlying structures on the different layers have a common structure:
-content : '(' OPER? 'p' INDEX ':' head '(' 'p' INDEX ')' restr* ')' FUNC? ;
-soa 	: '(' OPER? 'e' INDEX ':' head '(' 'e' INDEX ')' restr* ')' FUNC? ;	
-prop	: '(' OPER? 'f' INDEX ':' head '(' 'f' INDEX ')' restr* ')' FUNC? ;	
-indiv	: '(' OPER? 'x' INDEX ':' head '(' 'x' INDEX ')' restr* ')' FUNC? ;		
-loc	: '(' OPER? 'l' INDEX ':' head '(' 'l' INDEX ')' restr* ')' FUNC? ;	
-time 	: '(' OPER? 't' INDEX ':' head '(' 't' INDEX ')' restr* ')' FUNC? ;
+content    : '(' OPERATOR? 'p' X ( ':' head '(' 'p' X ')' )* ')' FUNCTION? ;
+soa 	   : '(' OPERATOR? 'e' X ( ':' head '(' 'e' X ')' )* ')' FUNCTION? ;	
+property   : '(' OPERATOR? 'f' X ( ':' head '(' 'f' X ')' )* ')' FUNCTION? ;	
+individual : '(' OPERATOR? 'x' X ( ':' head '(' 'x' X ')' )* ')' FUNCTION? ;		
+location   : '(' OPERATOR? 'l' X ( ':' head '(' 'l' X ')' )* ')' FUNCTION? ;	
+time 	   : '(' OPERATOR? 't' X ( ':' head '(' 't' X ')' )* ')' FUNCTION? ;
 
-// ...can be nested in complex heads:
-head	: LEMMA? ( '[' ( soa | prop | indiv | loc | time )* ']' ) ? ;
-
-// ...and be further resticted:
-restr	: ':' head '(' VAR INDEX ')' ;
+// underlying structures can have nested complex heads:
+head	   : LEMMA? ( '[' 
+	   ( soa 
+	   | property 
+	   | individual 
+	   | location 
+	   | time )* ']' ) ? ;
 
 //Lexer:
 VAR	: 'e' | 'f' | 'x' | 't' | 'l' ;
-FUNC	: 'Ag' | 'Pat' | 'Loc' | 'Inst' ;
-OPER	: 'Past' ; 
+FUNCTION	: 'Ag' | 'Pat' | 'Loc' | 'Inst' ;
+OPERATOR	: 'Past' ; 
 LEMMA	: 'a'..'z'+ ;
-INDEX	: '0'..'9'+ ;
+X	: '0'..'9'+ ;
 WHITE	: ( ' ' | '\t' | '\n' | '\r' )+ { skip(); } ;

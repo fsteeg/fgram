@@ -41,6 +41,12 @@ speaker
 addressee
 	:	'(' 'P' INDEX ':' WORD '(' 'P' INDEX ')' ( ':' WORD '(' 'P' INDEX ')' )* ')' ;
 	
+ascription
+	:	'(' 'T' INDEX '[' WORD ']' '(' 'T' INDEX ')'( ':' WORD '(' 'T' INDEX ')' )* ')' ;
+	
+reference
+	:	'(' 'R' INDEX '[' WORD ']' '(' 'R' INDEX ')'( ':' WORD '(' 'R' INDEX ')' )* ')' ;
+	
 communicated_content
 	:	'(' 'C' INDEX ':' '['
 			( ascription
@@ -48,11 +54,7 @@ communicated_content
 			)*
 		']' '(' 'C' INDEX ')' ( ':' WORD '(' 'C' INDEX ')' )* ')' ;
 		
-ascription
-	:	'(' 'T' INDEX '[' WORD ']' '(' 'T' INDEX ')'( ':' WORD '(' 'T' INDEX ')' )* ')' ;
-	
-reference
-	:	'(' 'R' INDEX '[' WORD ']' '(' 'R' INDEX ')'( ':' WORD '(' 'R' INDEX ')' )* ')' ;
+
 	
 ILL	:	'DECL' | 'INTER' | 'IMPER' | 'PROH' | 'OPTAT' | 'HORT' | 'IMPR' | 'ADMO' | 'CAUT' | 'COMM';
 WORD	:	('a'..'z')+ ;
