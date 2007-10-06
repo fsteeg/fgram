@@ -4,14 +4,14 @@
 <meta http-equiv="Content-Type"
 	content="application/xhtml+xml; charset=UTF-8" />
 <link rel="stylesheet" href="./style.css" type="text/css" />
-<title>Functional Grammar Language Generator</title>
+<title>Functional Grammar Research Application Modules</title>
 </head>
 <body class="top">
-<h1 class="caption">Functional Grammar Language Generator</h1>
+<h1 class="caption">Functional Grammar Research Application Modules</h1>
 
 <hr />
 
-<div class="navigation">
+<div class="navigation"><!-- 
 <form action="http://www.google.com/search">
 <div>Search <input size="15" name="as_q" /> <input type="hidden"
 	name="hl" value="en" /> <input type="hidden" name="ie" value="UTF-8" />
@@ -22,14 +22,17 @@
 	value="fgram.sourceforge.net" /></div>
 </form>
 <br />
-<a href="https://svn.sourceforge.net/svnroot/fgram/">Browse the
-Subversion repository (most recent version)</a> <br />
+ --> <a href="https://fgram.svn.sourceforge.net/svnroot/fgram/">Browse
+the Subversion repository (most recent version)</a> <br />
 <br />
 <a href="http://sourceforge.net/projects/fgram">Sourceforge Project
-Site (download and more)</a> <br />
+Site (forum and other infrastructure)</a> <br />
 <br />
-<a href="poster-abstract-icfg12.pdf">Three-page abstract of a poster
-about the system (accepted for ICFG-12)</a> <br />
+<a href="fdg-paper.pdf">Paper: Overview and goals of the system
+(2007)</a> <br />
+<br />
+<a href="fg-poster.pdf">Poster about the system (presented at
+ICFG-12, Brazil, 2006)</a> <br />
 <br />
 <a href="http://sourceforge.net/projects/fgram"><img class="image2"
 	alt="SourceForge.net Logo"
@@ -38,14 +41,16 @@ about the system (accepted for ICFG-12)</a> <br />
 <p><b>A modular language generator based on the theory of
 Functional Grammar by Simon C. Dik (FG), implemented using Java for the
 user interface and input processing, ANTLR for the input format parser
-and Prolog for the grammar and lexicon module</b>.</p>
+and Prolog for the grammar and lexicon module, treating underlying
+linguistic structure and lexical entries as domain-specific languages.</b></p>
 
-<p><img class="image1" src="fgram.png" alt="A Screenshot" /></p>
+<p><img class="image1" src="fgram.png" alt="System Overview (see Paper and Poster)" /></p>
 
-<p>The program uses a Swing-based Java GUI to enter an abstract
-representation of the expression to generate, called an <i>underlying
-clause structure</i> (UCS). The format of that UCS is defined as an ANTLR
-grammar, from which a parser for the input format is generated.</p>
+<p>The program uses a Swing-based Java GUI or a JSP-based web
+interface to enter an abstract representation of the expression to
+generate, called an <i>underlying clause structure</i> (UCS). The format
+of that UCS is defined as an ANTLR grammar, from which a parser for the
+input format is generated.</p>
 
 <p>The input UCS is parsed by that parser and transformed into an
 internal Java object representation. Using the object representation of
@@ -72,6 +77,13 @@ UCS and using the transformed representation to generate the linguistic
 expression this program could act as a language generation or input
 processing module in other FG-based NLP systems.</p>
 
+<p>Through the modular architecture and in particular the usage of a
+parser generator like ANTLR, the system can be extended for different
+input formats. Experimental ANTLR v3 grammar files for <i>Functional
+Discourse Grammar</i> (FDG) representations on the <i>Representational
+Level</i> and the <i>Interpersonal Level</i> can be found in the project
+repository.</p>
+
 <p>The lexicon and grammar component originates from a dialog-based
 Prolog-only implementation developed since 1989 by Paul O. Samuelsdorff,
 later with Christoph Benden, at the Department of Linguistics,
@@ -86,7 +98,7 @@ University of Cologne, of which the latest version is included.</p>
 	alt="Valid XHTML 1.1" /></a><br />
 <br />
 <i>This site was created on 2006-05-24 and last updated on
-2006-06-18 by <a href="http://www.spinfo.uni-koeln.de/~fsteeg">
+2007-10-06 by <a href="http://www.spinfo.uni-koeln.de/~fsteeg">
 Fabian Steeg </a> <br />
 <a href="http://www.spinfo.uni-koeln.de/">Linguistic Information
 Processing</a> - <a href="http://www.uni-koeln.de/phil-fak/ifl/">Department
