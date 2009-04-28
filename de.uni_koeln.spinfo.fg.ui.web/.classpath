@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.uni_koeln.spinfo.fg"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/antlr-2.7.4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
